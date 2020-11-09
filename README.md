@@ -16,3 +16,7 @@ GitHub: bansijivani01@gmail.com
 Name : Muhammad Ziam Saddique
 Email : muhammad-ziam.saddique@informatik.hs-fulda.de
 Github : ziamsaddique@gmail.com
+
+Name : Ahmed Shahid
+Email : ahmed.shahid@informatik.hs-fulda.de
+Github : ahmed.shahidpk@gmail.com
