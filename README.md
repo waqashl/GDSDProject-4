@@ -13,3 +13,6 @@ Name : Bansi Jivani
 Email : bansi-mukeshbhai.jivani@informatik.hs-fulda.de
 GitHub: bansijivani01@gmail.com
 
+Name : Muhammad Ziam Saddique
+Email : muhammad-ziam.saddique@informatik.hs-fulda.de
+Github : ziamsaddique@gmail.com
