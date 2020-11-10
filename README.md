@@ -20,3 +20,7 @@ Github : ziamsaddique@gmail.com
 Name : Ahmed Shahid
 Email : ahmed.shahid@informatik.hs-fulda.de
 Github : ahmed.shahidpk@gmail.com
+
+Name : Muhammad Bilal Mehdi
+Email : muhammad-bilal.mehdi@informatik.hs-fulda.de
+Github : https://github.com/bilal-288
