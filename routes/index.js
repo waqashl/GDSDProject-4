@@ -19,4 +19,8 @@ router.get('/adnan', function(req, res, next) {
    res.sendFile('views/adnan.html', { root: '.' });  
 });
 
+router.get('/bansi', function(req, res, next) {
+  res.sendFile('views/bansi.html', { root: '.' });  
+});
+
 module.exports = router;
