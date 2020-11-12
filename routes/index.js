@@ -25,5 +25,8 @@ router.get('/ahmed', function(req, res, next) {
 router.get('/bansi', function(req, res, next) {
   res.sendFile('views/bansi.html', { root: '.' });  
 });
+router.get('/waqas', function(req, res, next) {
+  res.sendFile('views/waqas.html', { root: '.' });  
+});
 
 module.exports = router;
