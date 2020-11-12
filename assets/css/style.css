@@ -1,0 +1,95 @@
+
+body{
+  margin:0;
+  padding:0;
+  font-family: 'Open Sans', sans-serif;
+}
+h1 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size:35px;
+}
+h2,h3 {
+  font-family: 'Pacifico', cursive;
+  font-size:25px;
+  
+}
+p {
+  font-family: 'Open Sans', sans-serif;
+  font-size:18px;
+}
+
+
+/* ABOUT-US CSS */
+.banner-section{
+  padding:50px;
+  background-color: cornflowerblue;
+  text-align: center;
+}
+
+/* info css page  */
+.img {
+  border-radius: 50%;
+  width:200px;
+  height:200px;
+}
+
+.myDiv {
+  text-align: center;
+}
+
+.bio {
+  margin-bottom: 2rem;
+  font-weight: normal;
+  opacity: 0.7;
+  color: white;
+  font-size: 16px;
+}
+
+.body {
+  background-color: #009688;
+  font-family: "Source Sans Pro";
+}
+
+.h1 {
+  color: white;
+}
+
+.h3 {
+  color: #B2DFDB;
+  font-family: 'Source Sans Pro',
+  sans-serif;
+  font-size:20px;
+  letter-spacing: 3px;
+}
+footer {
+  background-color:#f8f9fa;
+  padding: 50px;
+}
+.persona h2{
+  text-align: center;
+}
+.persona h2:after{
+  content:" ";
+  position: absolute;
+  width:100px;
+  height:3px;
+  background-color: red;
+  left:50%;
+  top:70px;
+  transform: translate(-50% , -35px);
+
+}
+.myDiv .h3{
+  position: relative;
+}
+.myDiv .h3:after{
+  content:" ";
+  position: absolute;
+  width:35%;
+  height:3px;
+  background-color: #B2DFDB;
+  opacity: 0.7;
+  left:50%;
+  top:70px;
+  transform: translate(-50%, -35px);
+}
