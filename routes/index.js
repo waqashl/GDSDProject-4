@@ -18,5 +18,21 @@ router.get('/', function(req, res, next) {
 router.get('/adnan', function(req, res, next) {
    res.sendFile('views/adnan.html', { root: '.' });  
 });
+router.get('/ahmed', function(req, res, next) {
+  res.sendFile('views/ahmed.html', { root: '.' });  
+});
 
+router.get('/bansi', function(req, res, next) {
+  res.sendFile('views/bansi.html', { root: '.' });  
+});
+router.get('/waqas', function(req, res, next) {
+  res.sendFile('views/waqas.html', { root: '.' });  
+});
+router.get('/Ziam', function(req, res, next) {
+  res.sendFile('views/Ziam.html', { root: '.' });  
+});
+
+router.get('/bilal', function(req, res, next) {
+  res.sendFile('views/bilal.html', { root: '.' });  
+});
 module.exports = router;
