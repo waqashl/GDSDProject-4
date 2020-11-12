@@ -32,4 +32,7 @@ router.get('/Ziam', function(req, res, next) {
   res.sendFile('views/Ziam.html', { root: '.' });  
 });
 
+router.get('/bilal', function(req, res, next) {
+  res.sendFile('views/bilal.html', { root: '.' });  
+});
 module.exports = router;
