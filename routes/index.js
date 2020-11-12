@@ -18,5 +18,8 @@ router.get('/', function(req, res, next) {
 router.get('/adnan', function(req, res, next) {
    res.sendFile('views/adnan.html', { root: '.' });  
 });
+router.get('/ahmed', function(req, res, next) {
+  res.sendFile('views/ahmed.html', { root: '.' });  
+});
 
 module.exports = router;
