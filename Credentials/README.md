@@ -11,4 +11,14 @@ I will look into how can add other people into that
 
 Database Credentials
 =====================================
-I will share once I configured the mySQL database
+
+AWS DB:
+==============================
+DB Name: classifiedAppDB
+user: admin
+Password: {C^^$^+E4p}x~H&5
+
+Endpoint
+classifiedappdb.csyrkhn1j1ii.us-east-1.rds.amazonaws.com
+Port
+3306
