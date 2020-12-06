@@ -11,12 +11,12 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { faSquare as farSquare, faCheckSquare as farCheckSquare } from '@fortawesome/free-regular-svg-icons';
 import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
-  ],
+    HeaderComponent,LoginComponent  ],
   imports: [
     HttpClientModule,
     BrowserModule,
