@@ -11,12 +11,19 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { faSquare as farSquare, faCheckSquare as farCheckSquare } from '@fortawesome/free-regular-svg-icons';
 import { faStackOverflow, faGithub, faMedium } from '@fortawesome/free-brands-svg-icons';
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './login/login.component';
+import { FooterComponent } from './footer/footer.component';
+import { CategoryListAndProductComponent } from './categories/CategoryListAndProduct.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,LoginComponent  ],
+    HeaderComponent,
+    LoginComponent,
+    FooterComponent,
+    CategoryListAndProductComponent,
+    HomeComponent  ],
   imports: [
     HttpClientModule,
     BrowserModule,
