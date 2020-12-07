@@ -6,10 +6,12 @@ const expressJwt = require('express-jwt');
 const config = require('./config');
 const sqlManager = require('./sql');
 const router = require('./user');
+const morgan = require('morgan');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(morgan('dev'));
 
 // use JWT auth to secure the api
 // app.use(jwt());
