@@ -27,7 +27,12 @@ sqlManager.connectDB(function (err) {
     app.use('/products', require('./products.js'));
     app.use('/category', require('./category.js'));
     
+    app.get("/", (req, resp) => {
+        resp.send("working");
+    });
+    
 });
+
 
 // global error handler
 app.use(errorHandler);
