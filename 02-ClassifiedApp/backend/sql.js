@@ -4,7 +4,7 @@ config = mysql.c
 
 var connection
 
-if(!process.env.dbPath) {
+if(process.env.dbPath) {
     connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
@@ -14,7 +14,8 @@ if(!process.env.dbPath) {
 }
 else {
     connection = mysql.createConnection({
-        host     : 'classifiedappdb.csyrkhn1j1ii.us-east-1.rds.amazonaws.com:3306',
+        host     : 'classifiedappdb.csyrkhn1j1ii.us-east-1.rds.amazonaws.com',
+        port     : 3306,
         user     : 'admin',
         password : '{C^^$^+E4p}x~H&5',
         database : 'dbo'
