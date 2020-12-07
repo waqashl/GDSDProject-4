@@ -5,13 +5,14 @@ const bodyParser = require('body-parser');
 const expressJwt = require('express-jwt');
 const config = require('./config');
 const sqlManager = require('./sql');
+const router = require('./user');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
 // use JWT auth to secure the api
-app.use(jwt());
+// app.use(jwt());
 
 
 sqlManager.connectDB(function (err) {
@@ -22,6 +23,8 @@ sqlManager.connectDB(function (err) {
     // api routes
     app.use('/user', require('./user.js'));
     app.use('/products', require('./products.js'));
+    app.use('/category', require('./category.js'));
+    
 });
 
 // global error handler
@@ -50,3 +53,4 @@ function errorHandler(err, req, res, next) {
     // default to 500 server error
     return res.status(500).json({ message: err.message });
 }
+

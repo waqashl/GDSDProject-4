@@ -17,7 +17,7 @@ else {
         host     : 'classifiedappdb.csyrkhn1j1ii.us-east-1.rds.amazonaws.com:3306',
         user     : 'admin',
         password : '{C^^$^+E4p}x~H&5',
-        database : 'classifiedAppDB'
+        database : 'dbo'
     });
 }
 
@@ -44,8 +44,58 @@ function getUser(email, password, cb) {
     });
 }
 
+function addCategory(category, cb) {
+    connection.query("INSERT INTO Category(name,isActive) VALUES('"+category+"',true)", function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });    
+}
+function deleteCategory(id, cb) {
+    connection.query("UPDATE Category set isActive=false WHERE id="+id, function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });    
+}
+
+function searchProducts(searchQuery, cb) {
+    var queryString = "SELECT p.id, p.title , p.location, p.status, p.category, p.price FROM Product p"
+
+    if (searchQuery) {
+        queryString = queryString+" WHERE p.title LIKE '%"+searchQuery+"%'"
+    }
+    
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function productDetails(id, cb) {
+    var queryString = "SELECT * FROM Product p WHERE p.status != 2 AND p.isApproved = true AND p.id = id"
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function getAllCategories(cb) {
+    var queryString = "SELECT * FROM Category c WHERE c.isActive = true"
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
 module.exports = {
     connectDB: connectDB,
     registerUser: registerUser,
-    getUser: getUser
+    getUser: getUser,
+    addCategory: addCategory,
+    deleteCategory: deleteCategory,
+    searchProducts: searchProducts,
+    productDetails: productDetails,
+    allCategories: getAllCategories
 }
