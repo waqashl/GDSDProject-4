@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 import { CategoryListAndProductComponent } from './categories/CategoryListAndProduct.component';
 import { HomeComponent } from './home/home.component';
+import { CategoriesService } from './_services/categories.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { HomeComponent } from './home/home.component';
     AppRoutingModule,
     FontAwesomeModule
   ],
-  providers: [FakeServiceForTestingService],
+  providers: [FakeServiceForTestingService, CategoriesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
