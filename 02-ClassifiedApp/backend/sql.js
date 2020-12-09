@@ -59,7 +59,7 @@ function deleteCategory(id, cb) {
 }
 
 function searchProducts(searchQuery, cb) {
-    var queryString = "SELECT p.id, p.title , p.location, p.status, p.category, p.price FROM Product p"
+    var queryString = "SELECT p.id, p.title , p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
 
     if (searchQuery) {
         queryString = queryString+" WHERE p.title LIKE '%"+searchQuery+"%'"
