@@ -13,8 +13,8 @@ export class LoginComponent implements OnInit {
     private _productService: ProductService) { }
 
   ngOnInit(): void {
-    this._categoryService.getAllCategories().subscribe(data=> {return console.log(data.categories)}, err => {});
-    this._productService.getProducts().subscribe(data=> {return console.log(data.products)}, err => {});
+    // this._categoryService.getAllCategories().subscribe(data=> {return console.log(data.categories)}, err => {});
+    // this._productService.getProducts().subscribe(data=> {return console.log(data.products)}, err => {});
   }
 
 }

@@ -5,3 +5,54 @@
     <h2 *ngFor="let t of testData">{{t.title}}</h2>
 </div> -->
 
+
+
+<div class="row">
+    <div class="col-sm-6">
+      <img src="assets/images/logo.png" class="mainlogo" />
+    </div>
+    <div class="col-sm-6">
+      <p class="text-right">Hi, User</p>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="input-group">
+        <input
+            name="txtSearch"
+            id="txtSearch" 
+            [(ngModel)]="txtSearch"
+          class="form-control mr-1 pr-5"
+          type="text"
+          (keyup.enter)="searchClicked()"
+          />
+        <span class="input-group-append">
+          <div style="text-align: right">
+            <button type="button" class="btn btn-primary" (click)="searchClicked()">Search</button>
+          </div>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-sm-6 text-right">
+        <div class="d-flex justify-content-end">
+            <div class="floatleft">
+                <img src="assets/images/shopping-bag.png" style="width:36px;" />
+    
+            </div>
+            <div class="ml-2">
+                <button type="button" class="btn btn-primary">Sell an item</button>
+
+
+            </div>
+
+        </div>
+        
+    </div>
+  </div>
+
+
+  <hr />

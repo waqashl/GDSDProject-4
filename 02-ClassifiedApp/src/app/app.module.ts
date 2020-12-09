@@ -16,6 +16,7 @@ import { FooterComponent } from './footer/footer.component';
 import { CategoryListAndProductComponent } from './categories/CategoryListAndProduct.component';
 import { HomeComponent } from './home/home.component';
 import { CategoriesService } from './_services/categories.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,10 @@ import { CategoriesService } from './_services/categories.service';
     CategoryListAndProductComponent,
     HomeComponent  ],
   imports: [
-    HttpClientModule,
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule, 
     AppRoutingModule,
     FontAwesomeModule
   ],

@@ -5,6 +5,7 @@ export interface Product {
     status: number;
     category: number;
     price: number;
+    thumbnail: string;
 }
 
 export interface ProductModelResponse {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CategoryModelResponse } from '../_models/category-model';
 import { ProductModelResponse } from '../_models/product-model';
 import { CategoriesService } from '../_services/categories.service';
@@ -12,9 +12,11 @@ import { ProductService } from '../_services/product.service';
 
 export class CategoryListAndProductComponent implements OnInit {
 	
-	categories: CategoryModelResponse | undefined;
-	products: ProductModelResponse | undefined;
+	categories = {} as CategoryModelResponse;
+	products = {} as ProductModelResponse;
 	searchText : string = '';
+
+	cate: string = '';
 
 	constructor(private _http: HttpClient,
 		private _categoryService: CategoriesService,
@@ -26,27 +28,49 @@ export class CategoryListAndProductComponent implements OnInit {
 		//Get Products
 		this._categoryService.getAllCategories().subscribe(data=> {
 			this.categories = data;
-		}, err => {
+		}, err => {    
 			console.log(err);
-		});
+		}); 
 
 		this.getProducts();
+
+		this._productService.productsDataFromDatabase.subscribe(data=> {
+
+			this.products = data;
+
+		}, error=>{})
 	}
 
-	getProducts(searchQuery: string = ''){
+	
+	getProducts(){
+			//Only get first time data from the database then filter from the memory			
+			//this._productService.getProductsFromDatabase();			
+			// this._productService.filteredData.subscribe(data=> {
+			// 	this.products = data;
+			// }, error=>{console.log(error)})
+
+			
+		this._productService.getProducts().subscribe(data=> {
+			this._productService.productsDataFromDatabase.next(data);
+		}, error=>{console.log(error)});
+
 		
-				//Get Products
-				this._productService.getProducts(this.searchText).subscribe(data=> {			
-					this.products = data
-				}, err => {
-					console.log(err);
-				});
+
+
+
+
 	}
 
-	// onSearch(searchQuery:string){
-	// 		this.getProducts(searchQuery);
+	onCategory(catId: number){
 
-	// }
+		this._productService.getProducts().subscribe(data=> {
+
+			let p = data.products.filter(m=> m.category == catId);
+			this._productService.productsDataFromDatabase.next({products: p} as ProductModelResponse);
+		}, error=>{console.log(error)});
+		
+		return false;
+	}
 
 
 }

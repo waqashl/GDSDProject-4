@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, children: [
     {path: 'main', component: CategoryListAndProductComponent}
-  ] }
+  ] },
+  {path: "**", redirectTo: '/home/main'}
 ];
 
 @NgModule({
