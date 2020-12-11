@@ -17,6 +17,10 @@ import { CategoryListAndProductComponent } from './categories/CategoryListAndPro
 import { HomeComponent } from './home/home.component';
 import { CategoriesService } from './_services/categories.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './_helper/jwt.interceptor';
+import { ErrorInterceptor } from './_helper/error.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +38,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     FontAwesomeModule
   ],
-  providers: [FakeServiceForTestingService, CategoriesService],
+  providers: [FakeServiceForTestingService, CategoriesService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+],
   bootstrap: [AppComponent]
 })
 export class AppModule {
