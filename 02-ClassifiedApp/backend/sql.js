@@ -31,7 +31,7 @@ function connectDB(cb) {
 // User routes
 // UserType = 1-RegUser, 2-Admin
 function registerUser(user, cb) {
-    connection.query("INSERT INTO User(name,dob,address,postalCode,email,password,isActive,userType) VALUES('"+user.name+"','"+user.dob+"','"+user.address+"','"+user.postalCode+","+user.email+"','"+user.password+"',true,1)", function(err, rows) {
+    connection.query("INSERT INTO User(name,address,postalCode,userType,dob,dateAdded,isActive,email,password) VALUES('"+user.name+"','"+user.address+"',"+user.postalCode+",1,'"+user.dob+"',NOW(),true,'"+user.email+"','"+user.password+"')", function(err, rows) {
         if (err) cb(err);
         else cb(undefined, rows);
     });    

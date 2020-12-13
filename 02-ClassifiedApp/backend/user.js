@@ -14,7 +14,8 @@ router.post('/register', function(req, res) {
         password: req.body.password,
         name: req.body.name,
         dob: req.body.dob,
-        address: req.body.address
+        address: req.body.address,
+        postalCode: req.body.postalCode
     }
 
     if(!user.email.endsWith('hs-fulda.de')) {
