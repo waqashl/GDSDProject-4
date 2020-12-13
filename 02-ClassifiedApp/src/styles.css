@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
+@import '../node_modules/bootswatch/dist/simplex/bootstrap.min.css';
+@import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 html,body{
     height:100%;
@@ -50,3 +52,32 @@ footer a {
     object-fit: contain;
     height: 178px;
 }
+
+.mainBody {
+}
+
+.mainBody .header {
+}
+
+.mainArea {
+  min-height: 800px;
+}
+
+.mainlogo {
+  width: 185px;
+}
+
+.searchButton
+{
+
+  width: 48px;
+background-color:#469408;
+}
+
+.searchButton span
+{
+  padding: 9px;
+position: absolute;
+  
+}
+.ngx-gallery { display: inline-block; margin-bottom: 20px; }
