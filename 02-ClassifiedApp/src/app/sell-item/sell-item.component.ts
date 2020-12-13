@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SellItemComponent implements OnInit {
 
+  submittedSuccessfully = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  submit(){
+    window.scroll(0,0);
+    this.submittedSuccessfully = true;
   }
 
 }

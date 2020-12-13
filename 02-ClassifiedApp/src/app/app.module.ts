@@ -39,7 +39,8 @@ import { LoaderAnimationComponent } from './_helperComponents/loader-animation/l
     ProductDetailComponent,
     SellItemComponent,
     ProductsSearchComponent,
-    LoaderAnimationComponent  ],
+    LoaderAnimationComponent
+      ],
   imports: [
     BrowserModule,
     FormsModule,
