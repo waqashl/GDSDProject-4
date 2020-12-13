@@ -1,0 +1,90 @@
+import { HttpClient } from '@angular/common/http';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { Product, ProductModelResponse } from 'src/app/_models/product-model';
+import { CategoriesService } from 'src/app/_services/categories.service';
+import { ProductService } from 'src/app/_services/product.service';
+
+@Component({
+  selector: 'app-products-search',
+  templateUrl: './products-search.component.html',
+  styleUrls: ['./products-search.component.css']
+})
+export class ProductsSearchComponent implements OnInit {
+  
+  
+  @Input() categoryId: number;
+  @Input() searchString: string;
+  @Input() isTopRecord: boolean;
+ 
+
+
+  products = {} as ProductModelResponse;
+  totalRecords = 0;
+  isLoaded = false;
+  constructor(private _http: HttpClient,
+		private _categoryService: CategoriesService,
+		private _productService: ProductService) { 
+  }
+
+  ngOnInit(): void {
+  
+    console.log(this.categoryId);
+
+    console.log(this.searchString);
+
+    if(this.categoryId != undefined && this.searchString != undefined)
+    {
+
+      this.getProducts();
+      //this._productService.productsDataFromDatabase.subscribe(data=> {      
+			//this.products = data;
+      //}, error=>{});
+    }
+    
+  }
+
+  getProducts(){    
+
+    this.isLoaded = false;
+    if(!this.isTopRecord)
+    {
+      console.log('calling product-search.component');
+      console.log(this.searchString);
+      
+      this._productService.getProducts(this.searchString).subscribe(data=> {
+      
+        let p = data.products;
+        if(this.categoryId != 0)
+        {
+          p = data.products.filter(m=> m.category == this.categoryId);
+        }
+        
+        this.products = {products: p} as ProductModelResponse;
+        this.totalRecords = this.products.products.length;
+        this.isLoaded = true;
+        //this._productService.productsDataFromDatabase.next({products: p} as ProductModelResponse);
+      }, error=>{console.log(error)});
+  
+    }
+    else
+    {
+      //top record
+      this._productService.getProducts(this.searchString).subscribe(data=> {
+      
+        let p = data.products;
+        if(this.categoryId != 0)
+        {
+          p = data.products.filter(m=> m.category == this.categoryId);
+        }
+        
+        this.products = {products: p} as ProductModelResponse;
+        this.isLoaded = true;
+        //this._productService.productsDataFromDatabase.next({products: p} as ProductModelResponse);
+      }, error=>{console.log(error)});
+    }
+
+    
+   
+}
+
+}
