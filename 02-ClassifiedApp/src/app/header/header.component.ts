@@ -2,6 +2,9 @@ import { Component, Output,EventEmitter, OnInit } from '@angular/core';
 import { ProductModelResponse } from '../_models/product-model';
 import {FakeServiceForTestingService} from '../_services/fake-service-for-testing.service';
 import { ProductService } from '../_services/product.service';
+import {AuthenticationService} from '../_services/authentication.service'
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-header',
@@ -15,7 +18,7 @@ export class HeaderComponent implements OnInit {
   txtSearch: string = "";
 
   constructor(private _fakeService: FakeServiceForTestingService,
-    private _productService: ProductService) { }
+    private _productService: ProductService,private _authServie:AuthenticationService,private _router:Router) { }
 
   
 
@@ -45,6 +48,11 @@ export class HeaderComponent implements OnInit {
     });
     //this._productService.testData.next("this is new data");
     //this._productService.getProducts(this.txtSearch);
+  }
+
+  logout(){
+    this._authServie.logout()
+    this._router.navigate(['/login']);
   }
 
 }
