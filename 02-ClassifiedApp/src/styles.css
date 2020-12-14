@@ -1,6 +1,83 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
+@import '../node_modules/bootswatch/dist/simplex/bootstrap.min.css';
+@import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 html,body{
     height:100%;
 }
+
+
+.bloc_left_price {
+    color: #c01508;
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+}
+.category_block li:hover {
+    background-color: #007bff;
+}
+.category_block li:hover a {
+    color: #ffffff;
+}
+.category_block li a {
+    color: #343a40;
+}
+
+.product_card {
+    margin: 4px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+footer {
+    background: #343a40;
+    padding: 40px;
+}
+footer a {
+    color: #f8f9fa!important
+}
+
+
+.card-title{
+    height: 56px;
+}
+
+.card{
+    margin-bottom: 10px;
+}
+
+.card-img-top{
+    object-fit: contain;
+    height: 178px;
+}
+
+.mainBody {
+}
+
+.mainBody .header {
+}
+
+.mainArea {
+  min-height: 800px;
+}
+
+.mainlogo {
+  width: 185px;
+}
+
+.searchButton
+{
+
+  width: 48px;
+background-color:#469408;
+}
+
+.searchButton span
+{
+  padding: 9px;
+position: absolute;
+  
+}
+.ngx-gallery { display: inline-block; margin-bottom: 20px; }

@@ -14,7 +14,8 @@ router.post('/register', function(req, res) {
         password: req.body.password,
         name: req.body.name,
         dob: req.body.dob,
-        address: req.body.address
+        address: req.body.address,
+        postalCode: req.body.postalCode
     }
 
     if(!user.email.endsWith('hs-fulda.de')) {
@@ -54,6 +55,12 @@ router.post('/login', function(req, res) {
             res.status(200).json({status:'Failed', message:'Login Failed. Username or Password incorrect.'});
         }
         else {
+
+            if (!result[0].isActive) {
+                res.status(400).json({status:'Failed', message:'User is not authorized to login. Please contact system administrator.'});
+                return
+            }
+
             const token = jwt.sign({ user: result[0].id }, config.jwtSecret, { expiresIn: '1h' });
             res.status(200).json({status:'Success', message:'Login Success', token: token, user: result[0]});    
         }

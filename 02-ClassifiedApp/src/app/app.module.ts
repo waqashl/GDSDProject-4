@@ -15,6 +15,16 @@ import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 import { CategoryListAndProductComponent } from './categories/CategoryListAndProduct.component';
 import { HomeComponent } from './home/home.component';
+import { CategoriesService } from './_services/categories.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { MainComponent } from './main/main.component';
+import { SearchComponent } from './search/search.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { SellItemComponent } from './sell-item/sell-item.component';
+import { ProductsSearchComponent } from './search/products-search/products-search.component';
+import { LoaderAnimationComponent } from './_helperComponents/loader-animation/loader-animation.component';
+
 
 @NgModule({
   declarations: [
@@ -23,14 +33,24 @@ import { HomeComponent } from './home/home.component';
     LoginComponent,
     FooterComponent,
     CategoryListAndProductComponent,
-    HomeComponent  ],
+    HomeComponent,
+    MainComponent,
+    SearchComponent,
+    ProductDetailComponent,
+    SellItemComponent,
+    ProductsSearchComponent,
+    LoaderAnimationComponent
+      ],
   imports: [
-    HttpClientModule,
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule, 
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxGalleryModule
   ],
-  providers: [FakeServiceForTestingService],
+  providers: [FakeServiceForTestingService, CategoriesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
