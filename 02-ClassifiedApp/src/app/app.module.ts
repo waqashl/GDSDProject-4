@@ -17,6 +17,9 @@ import { CategoryListAndProductComponent } from './categories/CategoryListAndPro
 import { HomeComponent } from './home/home.component';
 import { CategoriesService } from './_services/categories.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './_helper/jwt.interceptor';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { MainComponent } from './main/main.component';
 import { SearchComponent } from './search/search.component';
@@ -50,7 +53,10 @@ import { LoaderAnimationComponent } from './_helperComponents/loader-animation/l
     FontAwesomeModule,
     NgxGalleryModule
   ],
-  providers: [FakeServiceForTestingService, CategoriesService],
+  providers: [FakeServiceForTestingService, CategoriesService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+],
   bootstrap: [AppComponent]
 })
 export class AppModule {

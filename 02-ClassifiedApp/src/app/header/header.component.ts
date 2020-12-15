@@ -6,6 +6,9 @@ import { ProductModelResponse } from '../_models/product-model';
 import { CategoriesService } from '../_services/categories.service';
 import {FakeServiceForTestingService} from '../_services/fake-service-for-testing.service';
 import { ProductService } from '../_services/product.service';
+import {AuthenticationService} from '../_services/authentication.service'
+import {User} from '../_models/user-model'
+
 
 @Component({
   selector: 'app-header',
@@ -14,6 +17,8 @@ import { ProductService } from '../_services/product.service';
 })
 export class HeaderComponent implements OnInit {
 
+  userName:User
+
   @Output() searchClick = new EventEmitter<string>();
 
   txtSearch: string = "";
@@ -21,10 +26,10 @@ export class HeaderComponent implements OnInit {
   categories = {} as CategoryModelResponse;
 
   constructor(private _fakeService: FakeServiceForTestingService,
-    private _productService: ProductService,
-    private _categoryService: CategoriesService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private _productService: ProductService,private _authServie:AuthenticationService,private router:Router,private _categoryService: CategoriesService,private activatedRoute: ActivatedRoute) {
+     this.userName = _authServie.currentUserValue
+     console.log(this.userName)
+  }
 
   
 
@@ -56,9 +61,17 @@ export class HeaderComponent implements OnInit {
  
   }
 
+
+
+
+  logout(){
+    this._authServie.logout()
+    this.router.navigate(['/login'])
+  }
   redirectTo(uri:string, search: string, c: string){
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
     this.router.navigate([uri, {s: search, cat: c}]));
  }
+
 
 }
