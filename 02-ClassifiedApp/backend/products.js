@@ -61,7 +61,7 @@ router.post('/',upload.array('images',10), function(req, res) {
         category: parseInt(req.body.category),
         price: parseInt(req.body.price),
         location: req.body.location.toString(),
-        thumbnail: req.files[0].path
+        thumbnail: thumbnail
     };
 
     const owner = sqlManager.getUserofId(p.owner, (uErr, uRes) => {
