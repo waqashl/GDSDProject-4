@@ -1,0 +1,12 @@
+<div class="searchPage" *ngIf="searchString != undefined">
+
+   
+        <!-- <app-products-search *ngIf="searchString" [categoryId]="categoryId" [searchString]="'iphone'" [isTopRecord]="false"></app-products-search> -->
+
+        <app-products-search [categoryId]="categoryId" [searchString]="searchString" [isTopRecord]="false"></app-products-search>
+
+     
+      <!-- <pagination [boundaryLinks]="true" [totalItems]="77"
+          previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination> -->
+    </div>

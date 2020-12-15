@@ -6,7 +6,58 @@
 </div> -->
 
 
+<div class="container bg-light">
+  <div class="row">
+    <div class="col-sm-6 ">
+      <div class="d-flex justify-content-center justify-content-sm-start">
+        <div class="p-2">
+          <a [routerLink]="['/']"><img src="assets/images/logo.png" class="mainlogo" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="d-flex justify-content-center justify-content-sm-end">
+        <div class="p-2">
+          <button type="button" class="btn btn-warning mt-1" [routerLink]="['/home/sell-item']">
+            Sell an item
+          </button>
+        </div>
+        <div class="p-2">
+          <img src="assets/images/login.png" style="width: 40px" />
+          Hi, Adnan
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="container mt-3 p-0" style="max-width: 640px;">
+  <div class="form-row justify-content-center">
+    <div class="form-group col-md-3">
+      <select *ngIf="categories" class="form-control form-control-lg border-success rounded-0" id="ddlCategory" name="ddlCategory" [(ngModel)]="ddlCategory">
+        <option value="">All Categories</option>
+        <option *ngFor="let cat of categories.categories" value="{{cat.id}}">{{cat.name}}</option>        
+      </select>
+    </div>
+
+    <div class="form-group col-md-9 d-flex">
+      <input class="form-control form-control-lg border-success rounded-0" 
+      type="text" 
+      placeholder="Search" 
+      id="txtSearch" 
+      name="txtSearch" 
+      [(ngModel)]="txtSearch"
+      (keyup.enter)="searchClicked()">
+      <div class="searchButton" (click)="searchClicked()" style="cursor: pointer;">
+        <span><svg width="24px" height="24px" viewBox="0 0 1024 1024" data-aut-id="icon" class="" fill-rule="evenodd"><path class="rui-2h8NR" d="M448 725.333c-152.917 0-277.333-124.416-277.333-277.333s124.416-277.333 277.333-277.333c152.917 0 277.333 124.416 277.333 277.333s-124.416 277.333-277.333 277.333v0zM884.437 824.107v0.021l-151.915-151.936c48.768-61.781 78.144-139.541 78.144-224.192 0-199.979-162.688-362.667-362.667-362.667s-362.667 162.688-362.667 362.667c0 199.979 162.688 362.667 362.667 362.667 84.629 0 162.411-29.376 224.171-78.144l206.144 206.144h60.352v-60.331l-54.229-54.229z"></path></svg></span>
+      </div>
+    </div>
+   
+  </div>
+</div>  
+     
+
+<!-- 
 <div class="row">
     <div class="col-sm-6">
       <img src="assets/images/logo.png" class="mainlogo" />
@@ -57,4 +108,4 @@
   </div>
 
 
-  <hr />
+  <hr /> -->

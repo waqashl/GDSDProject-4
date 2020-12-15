@@ -9,7 +9,7 @@ if(!process.env.dbPath) {
         host     : 'localhost',
         user     : 'root',
         password : 'password',
-        database : 'E-MarktFulda(Local)'
+        database : 'dbo'
     });
 }
 else {
@@ -22,28 +22,39 @@ else {
     });
 }
 
-
-
 function connectDB(cb) {
     connection.connect(function(err) {
         cb(err)
     });    
 }
 
+// User routes
+// UserType = 1-RegUser, 2-Admin
 function registerUser(user, cb) {
-    connection.query("INSERT INTO User(name,dob,address,email,password) VALUES('"+user.name+"','"+user.dob+"','"+user.address+"','"+user.email+"','"+user.password+"')", function(err, rows) {
+    connection.query("INSERT INTO User(name,address,postalCode,userType,dob,dateAdded,isActive,email,password) VALUES('"+user.name+"','"+user.address+"',"+user.postalCode+",1,'"+user.dob+"',NOW(),true,'"+user.email+"','"+user.password+"')", function(err, rows) {
         if (err) cb(err);
         else cb(undefined, rows);
     });    
 }
 
 function getUser(email, password, cb) {
-    connection.query("SELECT id, name, dob, address, email FROM User u WHERE u.email = '"+email+"' AND password = '"+password+"'",
+    connection.query("SELECT id, name, dob, address, postalCode, email, userType, isActive FROM User u WHERE u.email = '"+email+"' AND password = '"+password+"'",
     function(err, rows) {
         if (err) cb(err);
         else cb(undefined, rows);
     });
 }
+
+function getUserofId(id, cb) {
+    connection.query("SELECT id, name, dob, address, postalCode, email, userType, isActive FROM User u WHERE u.id = "+id,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+
+// 
 
 function addCategory(category, cb) {
     connection.query("INSERT INTO Category(name,isActive) VALUES('"+category+"',true)", function(err, rows) {
@@ -56,6 +67,15 @@ function deleteCategory(id, cb) {
         if (err) cb(err);
         else cb(undefined, rows);
     });    
+}
+
+function getAllCategories(cb) {
+    var queryString = "SELECT * FROM Category c WHERE c.isActive = true"
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
 }
 
 function searchProducts(searchQuery, cb) {
@@ -81,14 +101,6 @@ function productDetails(id, cb) {
     });
 }
 
-function getAllCategories(cb) {
-    var queryString = "SELECT * FROM Category c WHERE c.isActive = true"
-    connection.query(queryString,
-    function(err, rows) {
-        if (err) cb(err);
-        else cb(undefined, rows);
-    });
-}
 
 module.exports = {
     connectDB: connectDB,

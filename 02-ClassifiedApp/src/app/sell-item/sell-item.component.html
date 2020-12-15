@@ -1,0 +1,81 @@
+<div class="seelItem" *ngIf="!submittedSuccessfully">
+    
+    <div class="alert alert-dismissible alert-primary">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Error</strong> Error Message
+      </div>
+
+    <h2 class="mb-5">Sell an item</h2>
+
+    <h5 class="mb-5">Please fill the following details</h5>
+
+
+    <form (ngSubmit)="submit()">
+        <div class="form-row">
+            <div class="form-group col-lg-6 ">
+                <label>Category</label>
+                <select class="form-control form-control-lg">
+                    <option>Category1</option>
+                    <option>Category1</option>
+                    <option>Category1</option>
+                    <option>Category1</option>
+                    <option>Category1</option>
+
+                </select>
+                
+          </div>
+        </div>
+       
+        <div class="form-row">
+            <div class="form-group col-lg-6 ">
+                <label>Title of the item</label>
+                <input type="text" class="form-control form-control-lg" id="txtProductName" aria-describedby="emailHelp" placeholder="Enter Product or Service name" />            
+          </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-lg-6 ">
+                <label>Description</label>
+                <textarea  class="form-control form-control-lg" id="txtDescription" aria-describedby="emailHelp" rows="10" placeholder="Describe your product"></textarea>        
+          </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-lg-6 ">
+                <label>Price</label>
+                <input type="text" class="form-control form-control-lg" id="txtPrice" aria-describedby="emailHelp" placeholder="Enter Product or Service Price" />            
+          </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group col-lg-6 ">
+                <label>Select Images</label>
+
+                <input type="file" class="form-control-file" multiple>
+                
+          </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-lg-6 mt-5">
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                
+          </div>
+        </div>
+        
+        
+    </form>
+</div>
+
+
+<div *ngIf="submittedSuccessfully">
+    <div class="d-flex justify-content-center">
+        <img class="img-fluid" src="assets/images/success.png" />        
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <h3>Your ad has successfully posted</h3>        
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <h5>It will appear on the site once Administrator apporved it</h5>        
+    </div>
+</div>
