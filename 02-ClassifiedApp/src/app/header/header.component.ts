@@ -17,7 +17,7 @@ import {User} from '../_models/user-model'
 })
 export class HeaderComponent implements OnInit {
 
-  userName:User
+  user:User
 
   @Output() searchClick = new EventEmitter<string>();
 
@@ -27,8 +27,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private _fakeService: FakeServiceForTestingService,
     private _productService: ProductService,private _authServie:AuthenticationService,private router:Router,private _categoryService: CategoriesService,private activatedRoute: ActivatedRoute) {
-     this.userName = _authServie.currentUserValue
-     console.log(this.userName)
+     this.user = _authServie.currentUserValue
+     console.log(this.user)
   }
 
   
