@@ -7,7 +7,6 @@ import { CategoriesService } from '../_services/categories.service';
 import {FakeServiceForTestingService} from '../_services/fake-service-for-testing.service';
 import { ProductService } from '../_services/product.service';
 import {AuthenticationService} from '../_services/authentication.service'
-import { Router } from '@angular/router';
 import {User} from '../_models/user-model'
 
 
