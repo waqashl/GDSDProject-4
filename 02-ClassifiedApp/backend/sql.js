@@ -1,3 +1,4 @@
+const { O_NOFOLLOW } = require('constants');
 const mysql = require('mysql');
 
 config = mysql.c
@@ -28,7 +29,8 @@ function connectDB(cb) {
     });    
 }
 
-// User routes
+// User quries...
+
 // UserType = 1-RegUser, 2-Admin
 function registerUser(user, cb) {
     connection.query("INSERT INTO User(name,address,postalCode,userType,dob,dateAdded,isActive,email,password) VALUES('"+user.name+"','"+user.address+"',"+user.postalCode+",1,'"+user.dob+"',NOW(),true,'"+user.email+"','"+user.password+"')", function(err, rows) {
@@ -38,7 +40,7 @@ function registerUser(user, cb) {
 }
 
 function getUser(email, password, cb) {
-    connection.query("SELECT id, name, dob, address, postalCode, email, userType, isActive FROM User u WHERE u.email = '"+email+"' AND password = '"+password+"'",
+    connection.query("SELECT id,name,address,postalCode,userType,dob,dateAdded,isActive,email FROM User u WHERE u.email = '"+email+"' AND password = '"+password+"'",
     function(err, rows) {
         if (err) cb(err);
         else cb(undefined, rows);
@@ -46,7 +48,7 @@ function getUser(email, password, cb) {
 }
 
 function getUserofId(id, cb) {
-    connection.query("SELECT id, name, dob, address, postalCode, email, userType, isActive FROM User u WHERE u.id = "+id,
+    connection.query("SELECT id,name,address,postalCode,userType,dob,dateAdded,isActive,email FROM User u WHERE u.id = "+id,
     function(err, rows) {
         if (err) cb(err);
         else cb(undefined, rows);
@@ -54,7 +56,7 @@ function getUserofId(id, cb) {
 }
 
 
-// 
+// Category queries
 
 function addCategory(category, cb) {
     connection.query("INSERT INTO Category(name,isActive) VALUES('"+category+"',true)", function(err, rows) {
@@ -69,8 +71,13 @@ function deleteCategory(id, cb) {
     });    
 }
 
-function getAllCategories(cb) {
+function getAllCategories(id = undefined, cb) {
     var queryString = "SELECT * FROM Category c WHERE c.isActive = true"
+
+    if(id) {
+        queryString += " AND c.id = "+id;
+    }
+
     connection.query(queryString,
     function(err, rows) {
         if (err) cb(err);
@@ -78,8 +85,11 @@ function getAllCategories(cb) {
     });
 }
 
+
+
+// Product Queries... 
 function searchProducts(searchQuery, cb) {
-    var queryString = "SELECT p.id, p.title , p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
+    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
 
     if (searchQuery) {
         queryString = queryString+" WHERE p.title LIKE '%"+searchQuery+"%'"
@@ -101,14 +111,53 @@ function productDetails(id, cb) {
     });
 }
 
+function addProduct(product, cb) {
+
+    console.log(product);
+    var queryString = "INSERT INTO Product(\
+        `title`,\
+        `desc`\,\
+        `owner`,\
+        `category`,\
+        `createdAt`,\
+        `status`,\
+        `price`,\
+        `location`,\
+        `thumbnail`) VALUES ('"+product.title+"','"+product.desc+"',"+product.owner+","+product.category+",NOW(),0,"+product.price+",'"+product.location+"','"+product.thumbnail+"')";
+
+    connection.query(queryString,
+        function(err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+    
+}
+function addProductImage(id, imageURLs, cb) {
+
+    var queryString = ""
+    for(url of imageURLs) {
+        queryString += "INSERT INTO ProductImage(productId,image) VALUES ("+id+",'"+url+"');";
+    }
+    connection.query(queryString,
+        function(err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
 
 module.exports = {
     connectDB: connectDB,
     registerUser: registerUser,
     getUser: getUser,
+    getUserofId: getUserofId,
     addCategory: addCategory,
     deleteCategory: deleteCategory,
+    addProduct: addProduct,
     searchProducts: searchProducts,
     productDetails: productDetails,
-    allCategories: getAllCategories
+    allCategories: getAllCategories,
+    addProductImage: addProductImage
 }
+
+
