@@ -4,6 +4,7 @@ import {FakeServiceForTestingService} from '../_services/fake-service-for-testin
 import { ProductService } from '../_services/product.service';
 import {AuthenticationService} from '../_services/authentication.service'
 import { Router } from '@angular/router';
+import {User} from '../_models/user-model'
 
 
 @Component({
@@ -13,12 +14,17 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  userName:User
+
   @Output() searchClick = new EventEmitter<string>();
 
   txtSearch: string = "";
 
   constructor(private _fakeService: FakeServiceForTestingService,
-    private _productService: ProductService,private _authServie:AuthenticationService,private _router:Router) { }
+    private _productService: ProductService,private _authServie:AuthenticationService,private _router:Router) {
+     this.userName = _authServie.currentUserValue
+     console.log(this.userName)
+    }
 
   
 
@@ -49,6 +55,8 @@ export class HeaderComponent implements OnInit {
     //this._productService.testData.next("this is new data");
     //this._productService.getProducts(this.txtSearch);
   }
+
+
 
   logout(){
     this._authServie.logout()
