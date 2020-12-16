@@ -51,18 +51,21 @@ router.post('/',upload.array('images',10), function(req, res) {
     var thumbnail = "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png";
 
     if(req.files && req.files.length > 0) {
-        thumbnail = "'http://ec2-54-167-29-120.compute-1.amazonaws.com:2000/"+req.files[0].path;
+        thumbnail = "http://ec2-54-167-29-120.compute-1.amazonaws.com:2000/"+req.files[0].path;
     }
 
     let p = { 
-        title: req.body.title.toString(),
-        desc: req.body.desc.toString(),
+        title: req.body.title,
         owner: parseInt(req.body.owner),
         category: parseInt(req.body.category),
         price: parseInt(req.body.price),
         location: req.body.location.toString(),
         thumbnail: thumbnail
     };
+
+    if(req.body.desc) {
+        p.desc = req.body.desc;
+    }
 
     const owner = sqlManager.getUserofId(p.owner, (uErr, uRes) => {
 
