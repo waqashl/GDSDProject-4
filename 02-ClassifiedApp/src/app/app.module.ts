@@ -27,6 +27,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { SellItemComponent } from './sell-item/sell-item.component';
 import { ProductsSearchComponent } from './search/products-search/products-search.component';
 import { LoaderAnimationComponent } from './_helperComponents/loader-animation/loader-animation.component';
+import { ChatUserComponent } from './chat-user/chat-user.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { LoaderAnimationComponent } from './_helperComponents/loader-animation/l
     ProductDetailComponent,
     SellItemComponent,
     ProductsSearchComponent,
-    LoaderAnimationComponent
+    LoaderAnimationComponent,
+    ChatUserComponent
       ],
   imports: [
     BrowserModule,

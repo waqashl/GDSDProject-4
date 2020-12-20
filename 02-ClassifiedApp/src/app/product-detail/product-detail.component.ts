@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 
 @Component({
@@ -8,7 +9,10 @@ import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov
 })
 export class ProductDetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router,
+    private activatedRoute: ActivatedRoute ) { 
+
+    }
   
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
@@ -64,6 +68,10 @@ export class ProductDetailComponent implements OnInit {
       },
     
     ];
+  }
+
+  chatUser(){
+    this.router.navigate(['./chat']);
   }
 
 }

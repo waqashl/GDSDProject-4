@@ -8,6 +8,7 @@ import { MainComponent } from './main/main.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { SearchComponent } from './search/search.component';
 import { SellItemComponent } from './sell-item/sell-item.component';
+import { ChatUserComponent } from './chat-user/chat-user.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
     {path: 'search', component: SearchComponent},
     {path: 'detail', component: ProductDetailComponent},
     {path: 'sell-item', component: SellItemComponent},
+    {path: 'chat', component: ChatUserComponent},
   ] },
   {path: "**", redirectTo: '/home/main'}
 ];
