@@ -71,7 +71,11 @@ export class ProductDetailComponent implements OnInit {
   }
 
   chatUser(){
-    this.router.navigate(['./chat']);
+    //TODO
+    //ReceiverID would be Owner of this product
+    //SenderID would be LoggedIn user:
+    
+    this.router.navigate(['./home/chat', {prodId:4, sen:2, rec:4}]);
   }
 
 }

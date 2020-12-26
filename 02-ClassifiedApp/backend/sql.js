@@ -146,6 +146,124 @@ function addProductImage(id, imageURLs, cb) {
 }
 
 
+
+/////////////////////////////////////////////CHAT////////////////////////////////////////////////
+function getChatHistoryById(chatSessionId, loggedInUserId, cb){
+    var queryString = `SELECT c.*,
+	U.name as opponentUserName,
+    MU.name as myName
+        FROM dbo.chat c
+        inner join User U on (U.id = c.senderId and c.senderId <> `+loggedInUserId+`) OR (U.id = c.receiverId and c.receiverId <>`+loggedInUserId+`)
+        inner join User MU on (MU.id = c.senderId and c.senderId <> U.Id) OR (MU.id = c.receiverId and c.receiverId <> U.Id)
+    WHERE chatSessionID = `+chatSessionId+`
+    ORDER BY Date`;
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+
+function getChatList(userId, cb){
+    // var queryString = `
+    // SELECT 
+	// SenderID, 
+	// ReceiverID,
+	// ProductID,
+	// (SELECT title FROM Product P WHERE P.Id = c.ProductID) AS ProductName,
+	// SUBSTRING(
+	// 	(SELECT message
+	// 	FROM chat tm
+	// 	WHERE ((tm.SenderID = c.SenderId AND tm.ReceiverID = c.ReceiverID) OR (tm.SenderID = c.ReceiverID AND tm.ReceiverID = c.SenderId))
+	// 	AND tm.ProductID = c.ProductID
+    //     ORDER BY tm.Date DESC
+    //     limit 1), 1, 50
+	// ) AS topMessage,
+    //     senderUser.name AS SenderName,
+    //     receiverUser.name AS ReceiverName
+    // FROM chat c    
+    // WHERE (c.ReceiverID = `+userId+` OR c.SenderID = `+userId+`)
+    // GROUP BY ProductID, SenderID, ReceiverID, senderUser.name, receiverUser.name`
+
+
+    var queryString = `
+    SELECT
+        CS.id,
+        CS.user1ID,
+        CS.user2ID,
+        P.title AS ProductName,
+        P.id AS ProductID,
+        SUBSTRING(
+                (SELECT
+                    message
+                FROM chat tm
+                WHERE ((tm.SenderID = CS.user1ID AND tm.ReceiverID = CS.user2ID) OR (tm.SenderID = CS.user2ID AND tm.ReceiverID = CS.user1ID))		
+                AND tm.chatSessionID = CS.id
+                ORDER BY tm.Date DESC
+                limit 1), 1, 50
+            ) AS topMessage,
+            U.name as opponentUserName
+        FROM chatSession CS
+        INNER JOIN Product P ON P.id = CS.productID
+        inner join User U on (U.id = CS.user1ID and CS.user1ID <> `+userId+`) OR (U.id = CS.user2ID and CS.user2ID <> `+userId+`)
+        where (CS.user1ID = `+userId+`) OR (CS.user2ID = `+userId+`)
+        order by CS.createdDate desc`;        
+        connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function checkAndInsertChatSession(productId,senderId,receiverId, cb){
+    //body.message = body.message.replaceAll("'", "\'");  
+    var queryString = `call CheckAndInsertChatSession(`+productId+`,`+senderId+`, `+receiverId+`)`;
+        connection.query(queryString,
+        function(err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+    }
+
+function insertChat(body, cb){
+    console.log(body);
+
+    //body.message = body.message.replaceAll("'", "\'");  
+    var queryString = `    
+INSERT INTO dbo.chat
+( Message ,
+  Date ,
+  SenderID ,
+  ReceiverID ,
+  chatSessionID,
+  isRead
+)
+VALUES  ( '`+body.message+`' , -- Message - varchar(max)
+  now() , -- Date - datetime
+  `+body.senderId+` , -- SenderID - int
+  `+body.receiverId+` , -- ReceiverID - int
+  `+body.chatSessionID+`,  -- chatSessionID - int
+    false  -- isRead - bool
+
+)`;
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
 module.exports = {
     connectDB: connectDB,
     registerUser: registerUser,
@@ -157,7 +275,11 @@ module.exports = {
     searchProducts: searchProducts,
     productDetails: productDetails,
     allCategories: getAllCategories,
-    addProductImage: addProductImage
+    addProductImage: addProductImage,
+    getChatHistoryById: getChatHistoryById,
+    getChatList: getChatList,
+    insertChat:insertChat,
+    checkAndInsertChatSession: checkAndInsertChatSession
 }
 
 

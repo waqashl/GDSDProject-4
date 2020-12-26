@@ -11,7 +11,7 @@ body{margin-top:20px;}
 .chat-messages {
     display: flex;
     flex-direction: column;
-    max-height: 800px;
+    max-height: 400px;
     overflow-y: scroll
 }
 
@@ -42,4 +42,8 @@ body{margin-top:20px;}
 }
 .border-top {
     border-top: 1px solid #dee2e6!important;
+}
+
+.chat-message-active{
+background-color:#ccc;
 }
