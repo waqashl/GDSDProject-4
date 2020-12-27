@@ -1,0 +1,33 @@
+<div class="container mainBody">
+    <div class="header">
+      <app-header></app-header>
+    </div>
+    <hr>
+    <div class="mainArea pt-4 mb-5">
+        <div class="col">
+            <div class="row">
+                <div *ngFor="let prod of products?.products" class="col-12 col-md-6 col-lg-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{{prod.thumbnail}}" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-title"><a href="#" title="View Product">{{prod.title}}</a></h4>
+                            <p class="card-text"></p>
+                            <div class="row">
+                                <div class="col">
+                                    <p *ngIf="prod.status == 2"> Rejected!! </p>
+                                    <p *ngIf="prod.status != 2"> Approved!! </p>
+
+                                    <p *ngIf="prod.status == 2"  class="btn btn-success" (click)="approve(prod.id)">Approve</p>
+                                    <p *ngIf="prod.status != 2" class="btn btn-danger" (click)="decline(prod.id)">Decline</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+  </div>
+  
+  <app-footer></app-footer>

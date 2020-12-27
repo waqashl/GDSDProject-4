@@ -9,6 +9,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { SearchComponent } from './search/search.component';
 import { SellItemComponent } from './sell-item/sell-item.component';
 import { ChatUserComponent } from './chat-user/chat-user.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
     {path: 'sell-item', component: SellItemComponent},
     {path: 'chat', component: ChatUserComponent},
   ] },
+  {path:"admin",component:AdminComponent},
   {path: "**", redirectTo: '/home/main'}
 ];
 

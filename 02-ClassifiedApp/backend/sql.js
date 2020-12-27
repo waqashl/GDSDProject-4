@@ -7,11 +7,18 @@ var connection
 
 if(!process.env.dbPath) {
     connection = mysql.createConnection({
+        host     : 'classifiedappdb.csyrkhn1j1ii.us-east-1.rds.amazonaws.com',
+        port     : 3306,
+        user     : 'admin',
+        password : '{C^^$^+E4p}x~H&5',
+        database : 'dbo'
+    });
+  /*  connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
         password : 'password',
         database : 'dbo'
-    });
+    });*/
 }
 else {
     connection = mysql.createConnection({
@@ -85,6 +92,17 @@ function getAllCategories(id = undefined, cb) {
     });
 }
 
+function getAllProducts(sq,cb){
+    
+    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
+    connection.query(queryString,
+        function(err, rows) {
+            
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
 
 
 // Product Queries... 
@@ -92,7 +110,11 @@ function searchProducts(searchQuery, cb) {
     var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
 
     if (searchQuery) {
-        queryString = queryString+" WHERE p.title LIKE '%"+searchQuery+"%'"
+        queryString = queryString+" WHERE p.title LIKE '%"+searchQuery+"%' AND  p.status != 2 "
+    }
+    else{
+        queryString = queryString+" WHERE p.status != 2 "
+
     }
     
     connection.query(queryString,
@@ -104,6 +126,23 @@ function searchProducts(searchQuery, cb) {
 
 function productDetails(id, cb) {
     var queryString = "SELECT * FROM Product p WHERE p.status != 2 AND p.isApproved = true AND p.id = id"
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function updateProductStatus(id,status,cb){
+    console.log(status)
+    let queryString;
+    if(status==='approve'){
+    queryString = `UPDATE Product as p SET p.status=0 WHERE p.id = ${id}`
+    }
+    else{
+    queryString = `UPDATE Product as p SET p.status=2 WHERE p.id = ${id}`
+    }
+
     connection.query(queryString,
     function(err, rows) {
         if (err) cb(err);
@@ -123,7 +162,7 @@ function addProduct(product, cb) {
         `status`,\
         `price`,\
         `location`,\
-        `thumbnail`) VALUES ('"+product.title+"','"+product.desc+"',"+product.owner+","+product.category+",NOW(),0,"+product.price+",'"+product.location+"','"+product.thumbnail+"')";
+        `thumbnail`) VALUES ('"+product.title+"','"+product.desc+"',"+product.owner+","+product.category+",NOW(),2,"+product.price+",'"+product.location+"','"+product.thumbnail+"')";
 
     connection.query(queryString,
         function(err, rows) {
@@ -132,6 +171,7 @@ function addProduct(product, cb) {
         });
     
 }
+
 function addProductImage(id, imageURLs, cb) {
 
     var queryString = ""
@@ -308,7 +348,9 @@ module.exports = {
     insertChat:insertChat,
     checkAndInsertChatSession: checkAndInsertChatSession,
     updateReadBit: updateReadBit,
-    getNotification: getNotification
+    getNotification: getNotification,
+    updateProductStatus : updateProductStatus,
+    getAllProducts :getAllProducts
 
 }
 

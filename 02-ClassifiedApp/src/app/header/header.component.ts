@@ -7,7 +7,7 @@ import { CategoriesService } from '../_services/categories.service';
 import { FakeServiceForTestingService } from '../_services/fake-service-for-testing.service';
 import { ProductService } from '../_services/product.service';
 import { AuthenticationService } from '../_services/authentication.service';
-import { User } from '../_models/user-model';
+import { User, UserDetails } from '../_models/user-model';
 import { ChatService } from '../_services/chat.service';
 
 @Component({
@@ -34,8 +34,10 @@ export class HeaderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _chatService: ChatService
   ) {
-    this.user = _authServie.currentUserValue;
-    //console.log(this.user)
+    
+    this.user = _authServie.currentUserValue.user;
+
+    console.log(this.user)
   }
 
   ngOnInit(): void {
