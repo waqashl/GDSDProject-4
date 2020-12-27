@@ -226,6 +226,33 @@ function checkAndInsertChatSession(productId,senderId,receiverId, cb){
         });
     }
 
+function updateReadBit(chatSessionID, receiverId, cb){
+        //body.message = body.message.replaceAll("'", "\'");  
+        var queryString = `update chat
+        set isRead = 1
+        where receiverId = `+receiverId+` and chatSessionID = `+chatSessionID;
+
+            connection.query(queryString,
+            function(err, rows) {
+                if (err) cb(err);
+                else cb(undefined, rows);
+            });
+}
+
+function getNotification(receiverId, cb){
+    //body.message = body.message.replaceAll("'", "\'");  
+    var queryString = `select count(*) as totalCount from chat
+    where ifnull(isRead, 0) = 0
+    and receiverId = `+ receiverId;
+    
+        connection.query(queryString,
+        function(err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
+
 function insertChat(body, cb){
     console.log(body);
 
@@ -279,7 +306,10 @@ module.exports = {
     getChatHistoryById: getChatHistoryById,
     getChatList: getChatList,
     insertChat:insertChat,
-    checkAndInsertChatSession: checkAndInsertChatSession
+    checkAndInsertChatSession: checkAndInsertChatSession,
+    updateReadBit: updateReadBit,
+    getNotification: getNotification
+
 }
 
 

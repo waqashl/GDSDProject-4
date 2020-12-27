@@ -1,14 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ChatDetails, ChatInsert, ChatList, CheckAndInsertChatSession } from '../_models/chat-model';
+import { ChatDetails, ChatInsert, ChatList, ChatNotification, CheckAndInsertChatSession } from '../_models/chat-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
   private baseUrl = environment.apiUrl;
+  chatNotification = new BehaviorSubject<ChatNotification>({} as ChatNotification);
 
   constructor(private http: HttpClient) { }
   
@@ -40,6 +41,28 @@ export class ChatService {
       .set('receiverId', receiverId);
 
     return this.http.get<CheckAndInsertChatSession>(this.baseUrl + "/chat/checkAndInsertChatSession", {params});
+
+  }
+
+  public updateReadBit(chatSessionID: string, receiverId: string) : Observable<any> {
+
+    const params = new HttpParams()
+      .set('chatSessionID', chatSessionID)      
+      .set('receiverId', receiverId);
+
+    return this.http.get<any>(this.baseUrl + "/chat/updateReadBit", {params});
+
+  }
+
+  public getNotification(receiverId: string) {
+
+    const params = new HttpParams()      
+      .set('receiverId', receiverId);
+
+    this.http.get<ChatNotification>(this.baseUrl + "/chat/getNotification", {params})
+    .subscribe(data=> {      
+      this.chatNotification.next(data);        
+    });
 
   }
 

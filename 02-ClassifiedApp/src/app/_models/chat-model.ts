@@ -48,3 +48,13 @@ export interface CheckAndInsertChatSession{
 export interface CheckAndInsertChatSessionDetail{
     chatSessionId: string;
 }
+
+
+export interface ChatNotification{
+    status: string;
+    chat: ChatNotificationDetail[];  
+}
+
+export interface ChatNotificationDetail{
+    totalCount: string;    
+}

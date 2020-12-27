@@ -24,7 +24,7 @@ export class ChatUserComponent implements OnInit {
   loggedInUserId: string = '3';
   prodId: string;
   receiverId: string;
-  activatedChatSessionID: string;
+  activatedChatSessionID: string = "";
 
 
   constructor(
@@ -40,28 +40,39 @@ export class ChatUserComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((x) => {
       //TODO uncomment it after setting in the detail page:
-      //this.prodId = x.get('prodId') || '';
-      //this.receiverId = x.get('rec') || '';
+      this.prodId = x.get('prodId') || '';
+      this.receiverId = x.get('rec') || '';
 
-      this.prodId = '19';
-      this.receiverId = '2';
+      //this.prodId = '';
+      //this.receiverId = '';
 
+
+      if(this.prodId != '' && this.receiverId != ''){
         this._chatService
-          .checkAndInsertChatSession(
-            this.prodId,
-            this.loggedInUserId,
-            this.receiverId
-          )
-          .subscribe((data) => {
-            
-            if(data.chat){
-                //Got a new Chat Session OR get old one if exists, check by stored procedure
-                //Stored Procedure Name: CheckAndInsertChatSession
-                this.activatedChatSessionID = data.chat[0].chatSessionId;
-            }            
+        .checkAndInsertChatSession(
+          this.prodId,
+          this.loggedInUserId,
+          this.receiverId
+        )
+        .subscribe((data) => {
+          
+          if(data.chat){
+              //Got a new Chat Session OR get old one if exists, check by stored procedure
+              //Stored Procedure Name: CheckAndInsertChatSession
+              this.activatedChatSessionID = data.chat[0].chatSessionId;
+          }            
 
-            this.getChatList();
-          });
+          this.getChatList();
+        });
+        
+      }
+      else{
+        //Get list and activated first chat
+        this.getChatList();
+
+      }
+      
+ 
 
     });
 
@@ -81,8 +92,12 @@ export class ChatUserComponent implements OnInit {
 
       if (data) {
         //Activate First
-        //let chatId = data.chat.filter((m) => m.ProductID == this.prodId)[0].id;
-        this.getChatDetail(this.activatedChatSessionID);
+        //let chatId = data.chat.filter((m) => m.ProductID == this.prodId)[0].id;        
+        if(this.activatedChatSessionID == ''){          
+          this.activatedChatSessionID = data.chat[0].id;
+        }
+
+        this.getChatDetail(this.activatedChatSessionID);          
       }
     });
   }
@@ -113,15 +128,17 @@ export class ChatUserComponent implements OnInit {
 
   getChatDetail(chatSessionId) {
     this.activatedChatSessionID = chatSessionId;
-    console.log(chatSessionId);
+    //console.log(chatSessionId);
     //TODO ADNAN
     //set loggedInUser
     this._chatService
       .getChatHistoryById(chatSessionId, this.loggedInUserId)
       .subscribe((data) => {
         this.chatDetail = data;
-        
 
+        this._chatService.updateReadBit(chatSessionId, this.loggedInUserId).subscribe(data=>{
+          this._chatService.getNotification(this.loggedInUserId);
+        })
 
       });
     return false;

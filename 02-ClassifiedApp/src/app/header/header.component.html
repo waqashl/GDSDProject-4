@@ -24,11 +24,17 @@
 
         </div>
         <div class="p-2">
-          <button type="button" class="btn btn-warning mt-1" [routerLink]="['/home/sell-item']">
+          <button type="button" class="btn btn-warning" [routerLink]="['/home/sell-item']">
             Sell an item
           </button>
         </div>
-        <div class="p-2" *ngIf="user">
+        <div class="p-2">
+        <button type="button" class="btn btn-outline-primary" (click)="chat()"> Chat
+          <span class="badge badge-primary badge-pill">{{chatNotificationCount}}</span>
+          </button>
+        </div>
+
+        <div class="mt-1" *ngIf="user">
           <img src="assets/images/login.png" style="width: 40px" />
    Hi, {{ user.name }}
         </div>

@@ -69,6 +69,44 @@ router.get('/checkAndInsertChatSession', function(req, res) {
 
 });
 
+
+router.get('/updateReadBit', function(req, res) {
+    
+    console.log(req.body);
+
+    sqlManager.updateReadBit(req.query.chatSessionID,req.query.receiverId, function(err, result) {
+        if (err) {
+            res.status(500).json({status:'Failed', message: err.message});
+            return
+        }
+
+        res.status(200).json({status: 'Success'});
+
+    });
+
+});
+
+router.get('/getNotification', function(req, res) {
+    
+    console.log(req.body);
+
+    sqlManager.getNotification(req.query.receiverId, function(err, result) {
+        if (err) {
+            res.status(500).json({status:'Failed', message: err.message});
+            return
+        }
+        
+        if(result.length == 0) {
+            res.status(200).json({status: 'Success', chat: {}});
+            return
+        }
+
+        res.status(200).json({status: 'Success', chat: result});
+
+    });
+
+});
+
 router.post('/insertChat', function(req, res) {
     console.log('adnan');
     console.log(req.body);

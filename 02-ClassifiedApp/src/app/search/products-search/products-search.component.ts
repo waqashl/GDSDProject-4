@@ -28,9 +28,9 @@ export class ProductsSearchComponent implements OnInit {
 
   ngOnInit(): void {
   
-    console.log(this.categoryId);
+    //console.log(this.categoryId);
 
-    console.log(this.searchString);
+   // console.log(this.searchString);
 
     if(this.categoryId != undefined && this.searchString != undefined)
     {
@@ -49,7 +49,7 @@ export class ProductsSearchComponent implements OnInit {
     if(!this.isTopRecord)
     {
       console.log('calling product-search.component');
-      console.log(this.searchString);
+      //console.log(this.searchString);
       
       this._productService.getProducts(this.searchString).subscribe(data=> {
       
