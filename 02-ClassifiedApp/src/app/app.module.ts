@@ -17,6 +17,9 @@ import { CategoryListAndProductComponent } from './categories/CategoryListAndPro
 import { HomeComponent } from './home/home.component';
 import { CategoriesService } from './_services/categories.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './_helper/jwt.interceptor';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { MainComponent } from './main/main.component';
 import { SearchComponent } from './search/search.component';
@@ -24,6 +27,12 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { SellItemComponent } from './sell-item/sell-item.component';
 import { ProductsSearchComponent } from './search/products-search/products-search.component';
 import { LoaderAnimationComponent } from './_helperComponents/loader-animation/loader-animation.component';
+import { ChatUserComponent } from './chat-user/chat-user.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:2000', options: {
+  withCredentials: false
+} };
 
 
 @NgModule({
@@ -39,7 +48,8 @@ import { LoaderAnimationComponent } from './_helperComponents/loader-animation/l
     ProductDetailComponent,
     SellItemComponent,
     ProductsSearchComponent,
-    LoaderAnimationComponent
+    LoaderAnimationComponent,
+    ChatUserComponent
       ],
   imports: [
     BrowserModule,
@@ -48,9 +58,14 @@ import { LoaderAnimationComponent } from './_helperComponents/loader-animation/l
     HttpClientModule, 
     AppRoutingModule,
     FontAwesomeModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    SocketIoModule.forRoot(config)
+
   ],
-  providers: [FakeServiceForTestingService, CategoriesService],
+  providers: [FakeServiceForTestingService, CategoriesService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+],
   bootstrap: [AppComponent]
 })
 export class AppModule {

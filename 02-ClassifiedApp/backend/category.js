@@ -11,7 +11,7 @@ router.post('/add', function(req, res) {
 
 router.get('/', function(req, res) {
 
-    sqlManager.allCategories(function(err, result) {
+    sqlManager.allCategories(req.query.id, function(err, result) {
         if (err) {
             res.status(500).json({status:'Failed', message: err.message});
             return
