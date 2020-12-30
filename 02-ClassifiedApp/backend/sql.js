@@ -7,8 +7,9 @@ var connection
 if(!process.env.dbPath) {
     connection = mysql.createConnection({
         host     : 'localhost',
+        port     :  8080,
         user     : 'root',
-        password : 'password',
+        password : '',
         database : 'dbo'
     });
 }

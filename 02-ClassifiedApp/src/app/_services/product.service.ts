@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AddItemDTO } from '../_models/add-item-dto';
 import { ProductModelResponse } from '../_models/product-model';
 
 @Injectable({
@@ -28,11 +29,13 @@ export class ProductService {
     },
       error=>{});
   }
-
-
   public getProducts(search: string = '') : Observable<ProductModelResponse> {    
     var url = search == '' ? "/products" : "/products?sq=" + search;     
     return this.http.get<ProductModelResponse>(this.baseUrl + url);
+  }
+
+  public addProduct(obj: AddItemDTO) : Observable<any> {           
+    return this.http.post(this.baseUrl + '/products', obj);
   }
 
 

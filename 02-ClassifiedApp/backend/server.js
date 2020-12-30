@@ -19,6 +19,7 @@ app.use(morgan('dev'));
 
 sqlManager.connectDB(function (err) {
     if(err) {
+        console.log(err);
         throw err;
     }
     console.log("Database connected");
@@ -38,8 +39,8 @@ sqlManager.connectDB(function (err) {
 app.use(errorHandler);
 
 // start server
-const server = app.listen(2000, function () {
-    console.log('Server listening on port ' + 2000);
+const server = app.listen(8080, function () {
+    console.log('Server listening on port ' + 8080);
 });
 
 function jwt() {
