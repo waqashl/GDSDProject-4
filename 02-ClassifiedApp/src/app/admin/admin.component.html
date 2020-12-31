@@ -4,7 +4,18 @@
     </div>
     <hr>
     <div class="mainArea pt-4 mb-5">
-        <div class="col">
+        <ul class="nav nav-tabs">
+            <li class="nav-item" 
+            (click)="switchTab(1)" >
+              <a class="nav-link" [ngClass]="{'active': tab === 1}" aria-current="page"  >Users</a>
+            </li>
+            <li class="nav-item"  (click)="switchTab(2)">
+              <a class="nav-link" [ngClass]="{'active': tab === 2}">Products</a>
+            </li>
+            
+          </ul>
+          <br/>
+        <div class="col" *ngIf="tab==2">
             <div class="row">
                 <div *ngFor="let prod of products?.products" class="col-12 col-md-6 col-lg-4">
                     <div class="card">
@@ -26,6 +37,29 @@
                     </div>
                 </div>
             </div>
+        </div>
+            <div class="col" *ngIf="tab==1">
+                <div class="row">
+                    <div *ngFor="let user of users" class="col-12 col-md-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media">
+                                    <a class="thumbnail pull-left" href="#">
+                                        <img class="media-object" src="assets/images/login.png">
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{user.name}}</h4>
+                                        <p>{{user.email}}</p>
+                                    </div>
+                                    <button  class="btn" [ngClass]="user.isActive === 0?'btn-success':'btn-danger'"  (click)="changeUserStatus(user.id,user.isActive)">
+                                        {{user.isActive==1?'block':'unblock'}}
+                                    </button>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>  
   </div>

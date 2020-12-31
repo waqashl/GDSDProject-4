@@ -54,6 +54,13 @@ function getUser(email, password, cb) {
     });
 }
 
+function getAllUser(cb){
+    connection.query("SELECT * FROM User",(err,rows)=>{
+        if(err) cb(err)
+        else cb(undefined,rows);
+    })
+}
+
 function getUserofId(id, cb) {
     connection.query("SELECT id,name,address,postalCode,userType,dob,dateAdded,isActive,email FROM User u WHERE u.id = "+id,
     function(err, rows) {
@@ -149,6 +156,24 @@ function updateProductStatus(id,status,cb){
         else cb(undefined, rows);
     });
 }
+
+function updateUserStatus(id,status,cb){
+    console.log(status)
+    let queryString;
+    if(status==='block'){
+    queryString = `UPDATE User as u SET u.isActive=0 WHERE u.id = ${id}`
+    }
+    else{
+    queryString = `UPDATE User as u SET u.isActive=1 WHERE u.id = ${id}`
+    }
+
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
 
 function addProduct(product, cb) {
 
@@ -350,7 +375,9 @@ module.exports = {
     updateReadBit: updateReadBit,
     getNotification: getNotification,
     updateProductStatus : updateProductStatus,
-    getAllProducts :getAllProducts
+    getAllProducts :getAllProducts,
+    getAllUser:getAllUser,
+    updateUserStatus:updateUserStatus
 
 }
 

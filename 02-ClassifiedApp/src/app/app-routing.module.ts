@@ -22,7 +22,7 @@ const routes: Routes = [
     {path: 'sell-item', component: SellItemComponent},
     {path: 'chat', component: ChatUserComponent},
   ] },
-  {path:"admin",component:AdminComponent},
+  {path:"admin",canActivate:[AuthGuard],component:AdminComponent},
   {path: "**", redirectTo: '/home/main'}
 ];
 
@@ -32,5 +32,7 @@ const routes: Routes = [
 })
 
 export class AppRoutingModule { 
+  
+
   
 }

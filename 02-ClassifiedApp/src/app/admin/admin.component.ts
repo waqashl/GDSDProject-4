@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Product, ProductModelResponse } from '../_models/product-model';
+import { UserModelResponse } from '../_models/user-model';
 import { ProductService } from '../_services/product.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-admin',
@@ -10,8 +12,10 @@ import { ProductService } from '../_services/product.service';
 export class AdminComponent implements OnInit {
 
   products:ProductModelResponse
+  users:UserModelResponse[]
+  tab:number = 1
 
-  constructor(private _productService : ProductService) {
+  constructor(private _productService : ProductService,private _userService:UserService) {
 
   
 
@@ -19,6 +23,7 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
    this.updateProducts()
+   this.getUsers()
   }
 
   getProducts(){
@@ -34,6 +39,13 @@ export class AdminComponent implements OnInit {
   }, error=>{console.log(error)});
 
 
+  }
+
+  getUsers(){
+    this._userService.getAllUser().subscribe(data=> {
+      this.users = data;
+      console.log(data)
+    }, error=>{console.log(error)});
   }
 
   updateProducts(){
@@ -58,6 +70,20 @@ export class AdminComponent implements OnInit {
     this._productService.updateProductStatus(id,"decline")
     this.updateProducts()
   } 
+  changeUserStatus(id:number,status:number){
+    console.log(id)
+    if(status == 1){
+      this._userService.updateUserStatus(id,"block")
+    }
+    else{
+      this._userService.updateUserStatus(id,"unblock")
+    }
+    this.getUsers()
+  }
+
+  switchTab(tab:number){
+this.tab = tab
+  }
 
 
 }

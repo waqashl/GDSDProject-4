@@ -33,6 +33,28 @@ router.post('/register', function(req, res) {
 
 });
 
+router.post('/update/status',(req,res)=>{
+    let id= req.body.id;
+    let status = req.body.status;
+
+    if(!(id && status)){
+        res.status(400).json({message: "Email and password cannot be null."});
+        return  
+    }
+    else{
+        sqlManager.updateUserStatus(id,status,(err,result)=>{
+            if(err){
+                res.status(500).json({status:'Failed', message: err.message});
+                return 
+            }
+            else{
+                res.status(200).json({status:'Success', message:result});
+  
+            }
+        })
+    }
+})
+
 
 router.post('/login', function(req, res) {
 
@@ -67,5 +89,22 @@ router.post('/login', function(req, res) {
     });
 
 });
+
+router.get('/all',(req,res)=>{
+    sqlManager.getAllUser((err,rows)=>{
+        if(err){
+            res.status(500).json({status:'Failed', message: err.message});
+            return 
+        }
+
+        if(rows.length == 0){
+            res.status(200).json({status:'Failed', message:'No user found'});
+        }
+        else{
+            res.status(200).json(rows);
+        }
+    })
+
+})
 
 module.exports = router
