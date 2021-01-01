@@ -35,7 +35,7 @@ export class ProductService {
   }
 
   public addProduct(obj: AddItemDTO) : Observable<any> {           
-    return this.http.post(this.baseUrl + '/products', obj);
+    return this.http.post(this.baseUrl + '/products/', obj);
   }
 
 

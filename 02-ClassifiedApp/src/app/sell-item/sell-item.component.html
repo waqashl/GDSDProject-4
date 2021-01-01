@@ -2,7 +2,7 @@
     
     <div class="alert alert-dismissible alert-primary" *ngIf="errorMessage" >
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Error:</strong> All fields are manadatory!
+        <strong>Error:</strong> {{ errorMessageText }}
       </div>
 
     <h2 class="mb-5">Sell an item</h2>
@@ -51,7 +51,7 @@
             <div class="form-group col-lg-6 ">
                 <label>Select Images</label>
 
-                <input required type="file" class="form-control-file" multiple>
+                <input required formControlName="productImage" type="file" class="form-control-file" multiple>
                 
           </div>
         </div>

@@ -5,4 +5,5 @@ export interface AddItemDTO {
     category: number;
     price: number;
     location: string;
+    images: File;
 }

@@ -14,11 +14,13 @@ export class SellItemComponent implements OnInit {
 
   submittedSuccessfully = false;
   errorMessage = false;
+  errorMessageText = 'All Fields are manadatory'
   addItemFormGroup: FormGroup;
 
   productName = "";
   productDesc = "";
   productPrice = 0;
+  productImage = File;
 
   constructor(private fb: FormBuilder,
     private _productService: ProductService) { 
@@ -48,7 +50,7 @@ export class SellItemComponent implements OnInit {
     this.addItemFormGroup = this.fb.group({
       productName: ['', Validators.required],
       productDesc: ['', Validators.required],
-      productPrice: ['', Validators.required]
+      productPrice: [0, Validators.required]
     });
 
 
@@ -66,7 +68,8 @@ export class SellItemComponent implements OnInit {
       productDto.price = this.addItemFormGroup.get('productPrice')?.value;
       productDto.owner = 1;
       productDto.location = '';
-      productDto.category = 0;
+      productDto.category = 1;
+      productDto.images = this.addItemFormGroup.get('productImage')?.value as File;
 
 
       console.log(productDto);
@@ -74,11 +77,13 @@ export class SellItemComponent implements OnInit {
         window.scroll(0,0);
         this.submittedSuccessfully = true;
       }, error=> {
+        
         console.log(error);
       })
     } else {
       this.errorMessage = true;
       window.scroll(0,0);
+      this.errorMessageText = "validation fail";
       console.log("validation fail");
     }
 
