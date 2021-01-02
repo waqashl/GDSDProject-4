@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
 import { ChatDetails, ChatInsert, ChatList } from '../_models/chat-model';
+import { AuthenticationService } from '../_services/authentication.service';
 import { ChatService } from '../_services/chat.service';
 
 declare var scrollToBottomFunction: any;
@@ -17,11 +18,9 @@ export class ChatUserComponent implements OnInit {
   chatList: ChatList;
   chatDetail: ChatDetails;
 
-
-
   //TODO ADNAN
   //Replace it with loggedInUser's ID
-  loggedInUserId: string = '3';
+  loggedInUserId: string = '';
   prodId: string;
   receiverId: string;
   activatedChatSessionID: string = "";
@@ -30,7 +29,8 @@ export class ChatUserComponent implements OnInit {
   constructor(
     private _chatService: ChatService,
     private activatedRoute: ActivatedRoute,
-    private socket: Socket
+    private socket: Socket,
+    private _authService: AuthenticationService
   ) {}
 
   ngAfterViewChecked(){
@@ -43,34 +43,42 @@ export class ChatUserComponent implements OnInit {
       this.prodId = x.get('prodId') || '';
       this.receiverId = x.get('rec') || '';
 
+      //alert(this.prodId);
       //this.prodId = '';
       //this.receiverId = '';
 
+      this._authService.currentUser.subscribe(data=>{
+        console.log(data);
+        this.loggedInUserId = data.user.id.toString();
 
-      if(this.prodId != '' && this.receiverId != ''){
-        this._chatService
-        .checkAndInsertChatSession(
-          this.prodId,
-          this.loggedInUserId,
-          this.receiverId
-        )
-        .subscribe((data) => {
+        if(this.prodId != '' && this.receiverId != ''){
+          this._chatService
+          .checkAndInsertChatSession(
+            this.prodId,
+            this.loggedInUserId,
+            this.receiverId
+          )
+          .subscribe((data) => {
+            
+            if(data.chat){
+                //Got a new Chat Session OR get old one if exists, check by stored procedure
+                //Stored Procedure Name: CheckAndInsertChatSession
+                this.activatedChatSessionID = data.chat[0].chatSessionId;
+            }            
+  
+            this.getChatList();
+          });
           
-          if(data.chat){
-              //Got a new Chat Session OR get old one if exists, check by stored procedure
-              //Stored Procedure Name: CheckAndInsertChatSession
-              this.activatedChatSessionID = data.chat[0].chatSessionId;
-          }            
-
+        }
+        else{
+          //Get list and activated first chat
           this.getChatList();
-        });
-        
-      }
-      else{
-        //Get list and activated first chat
-        this.getChatList();
+  
+        }
+      });
+      
 
-      }
+     
       
  
 
@@ -87,6 +95,7 @@ export class ChatUserComponent implements OnInit {
 
   getChatList() {
     //TODO ADNAN    
+    
     this._chatService.getChatList(this.loggedInUserId).subscribe((data) => {
       this.chatList = data;
 
@@ -107,7 +116,7 @@ export class ChatUserComponent implements OnInit {
     if (this.txtChat && this.txtChat.trim()) {
       let chatObj = {} as ChatInsert;
       chatObj.message = this.txtChat.trim();
-      chatObj.receiverId = this.chatDetail.chat[0].ReceiverID;
+      chatObj.receiverId = this.chatDetail.chat[0].ReceiverID == this.loggedInUserId ? this.chatDetail.chat[0].SenderID : this.chatDetail.chat[0].ReceiverID;
       chatObj.senderId = this.loggedInUserId;
       chatObj.chatSessionID = this.chatDetail.chat[0].chatSessionID;
 
@@ -116,7 +125,7 @@ export class ChatUserComponent implements OnInit {
 
 
         //SOCKET IO
-        this.socket.emit('updateChat');
+        this.socket.emit('updateChat', '');
         ///////////////////////
 
         

@@ -83,13 +83,14 @@ const io = require('socket.io')(server, {
 
 io.on('connection', socket => {
     console.log('hello world im a hot socket');
+    
     socket.on('updateChat', data => { 
         console.log('UPDATED FROM ANGULAR');
-        socket.emit('clientChatUpdate');
+        io.emit('clientChatUpdate', '');
     });
 
 
-    //socket.on('disconnect', () => { /* … */ });
+    socket.on('disconnect', () => { console.log('im disconnect'); });
 });
 
 server.listen(2000, function(){

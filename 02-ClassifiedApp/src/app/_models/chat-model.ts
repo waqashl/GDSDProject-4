@@ -10,6 +10,7 @@ export interface ChatListDetail{
     ProductID: string;    
     topMessage: string;
     opponentUserName: string;
+    unreadMessages: string;
 }
 
 export interface ChatDetails {

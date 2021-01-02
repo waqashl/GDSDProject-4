@@ -194,6 +194,7 @@ function getChatList(userId, cb){
         CS.user2ID,
         P.title AS ProductName,
         P.id AS ProductID,
+        (select count(*) as totalCount from chat where ifnull(isRead, 0) = 0 and receiverId = `+userId+`) as unreadMessages,
         SUBSTRING(
                 (SELECT
                     message

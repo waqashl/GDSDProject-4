@@ -22,7 +22,7 @@ export class AppComponent {
 
 
   ngOnInit(): void {
-    //this.socket.emit("updateChat", 'hahahah');
+//    this.socket.emit("updateChat", 'hahahah');
 
   }  
 }
