@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Category } from '../_models/category-model';
 import { Product, ProductModelResponse } from '../_models/product-model';
 import { UserModelResponse } from '../_models/user-model';
+import { CategoriesService } from '../_services/categories.service';
 import { ProductService } from '../_services/product.service';
 import { UserService } from '../_services/user.service';
 
@@ -14,8 +16,9 @@ export class AdminComponent implements OnInit {
   products:ProductModelResponse
   users:UserModelResponse[]
   tab:number = 1
+  categories:Category[]
 
-  constructor(private _productService : ProductService,private _userService:UserService) {
+  constructor(private _productService : ProductService,private _userService:UserService,private _categoryService:CategoriesService) {
 
   
 
@@ -24,6 +27,7 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
    this.updateProducts()
    this.getUsers()
+   this.getCategories()
   }
 
   getProducts(){
@@ -38,7 +42,13 @@ export class AdminComponent implements OnInit {
     this._productService.productsDataFromDatabase.next(data);
   }, error=>{console.log(error)});
 
+  }
 
+  getCategories(){
+    this._categoryService.getAllCategoriesForAdmin().subscribe(data=>{
+      this.categories = data.categories
+      console.log(this.categories)
+    }, error=>{console.log(error)})
   }
 
   getUsers(){

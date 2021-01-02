@@ -99,6 +99,16 @@ function getAllCategories(id = undefined, cb) {
     });
 }
 
+function getAllCategoriesForAdmin(cb) {
+    var queryString = "SELECT * FROM Category c"
+
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
 function getAllProducts(sq,cb){
     
     var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
@@ -377,7 +387,8 @@ module.exports = {
     updateProductStatus : updateProductStatus,
     getAllProducts :getAllProducts,
     getAllUser:getAllUser,
-    updateUserStatus:updateUserStatus
+    updateUserStatus:updateUserStatus,
+    getAllCategoriesForAdmin:getAllCategoriesForAdmin
 
 }
 

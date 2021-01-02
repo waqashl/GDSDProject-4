@@ -22,7 +22,9 @@ const routes: Routes = [
     {path: 'sell-item', component: SellItemComponent},
     {path: 'chat', component: ChatUserComponent},
   ] },
-  {path:"admin",canActivate:[AuthGuard],component:AdminComponent},
+ /* {path:"admin",canActivate:[AuthGuard],component:AdminComponent},*/
+  {path:"admin",component:AdminComponent},
+
   {path: "**", redirectTo: '/home/main'}
 ];
 

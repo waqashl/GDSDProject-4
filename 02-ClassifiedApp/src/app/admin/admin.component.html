@@ -12,7 +12,9 @@
             <li class="nav-item"  (click)="switchTab(2)">
               <a class="nav-link" [ngClass]="{'active': tab === 2}">Products</a>
             </li>
-            
+            <li class="nav-item"  (click)="switchTab(3)">
+                <a class="nav-link" [ngClass]="{'active': tab === 3}">Categories</a>
+              </li>
           </ul>
           <br/>
         <div class="col" *ngIf="tab==2">
@@ -61,6 +63,13 @@
                     </div>
                 </div>
         </div>
+        <div class="col" *ngIf="tab==3">
+            <ul class="list-group" >
+                <li class="list-group-item" *ngFor="let category of categories">{{category.name}}</li>
+                
+              </ul>
+        </div>
+       
     </div>  
   </div>
   

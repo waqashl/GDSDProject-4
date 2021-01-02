@@ -20,4 +20,9 @@ export class CategoriesService {
 
   }
 
+  public getAllCategoriesForAdmin() : Observable<CategoryModelResponse> {
+    return this.http.get<CategoryModelResponse>(this.baseUrl + "/category/all");
+
+  }
+
 }
