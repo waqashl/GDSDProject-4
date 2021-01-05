@@ -10,7 +10,8 @@ if(!process.env.dbPath) {
         host     : 'localhost',
         user     : 'root',
         password : 'password',
-        database : 'dbo'
+        database : 'dbo',
+        multipleStatements: true
     });
 }
 else {
@@ -19,10 +20,10 @@ else {
         port     : 3306,
         user     : 'admin',
         password : '{C^^$^+E4p}x~H&5',
-        database : 'dbo'
+        database : 'dbo',
+        multipleStatements: true
     });
 }
-
 function connectDB(cb) {
     connection.connect(function(err) {
         cb(err)
@@ -72,7 +73,7 @@ function deleteCategory(id, cb) {
 }
 
 function getAllCategories(id = undefined, cb) {
-    var queryString = "SELECT * FROM Category c WHERE c.isActive = true"
+    var queryString = "SELECT * FROM Category c WHERE c.isActive = true";
 
     if(id) {
         queryString += " AND c.id = "+id;
@@ -88,11 +89,52 @@ function getAllCategories(id = undefined, cb) {
 
 
 // Product Queries... 
-function searchProducts(searchQuery, cb) {
-    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
+function searchProducts(searchQuery, cat, pMin, pMax, sortT, sortV, cb) {
+    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail, p.createdAt FROM Product p";
+    var paramsCount = 0
+    if (searchQuery) {
+        paramsCount++;
+    }
+    if (cat) {
+        paramsCount++;
+    }
+    if (pMin) {
+        paramsCount++;
+    }
+    if (pMax) {
+        paramsCount++;
+    }
+
+    if(paramsCount > 0) {
+        queryString += ' WHERE'
+    }
 
     if (searchQuery) {
-        queryString = queryString+" WHERE p.title LIKE '%"+searchQuery+"%'"
+        queryString = queryString+" p.title LIKE '%"+searchQuery+"%'";
+        paramsCount--;
+        queryString += paramsCount > 0 ? ' AND' : '';
+    }
+    if (cat) {
+        queryString = queryString+" p.category = "+cat;
+        paramsCount--;
+        queryString += paramsCount > 0 ? ' AND' : '';
+    }
+    if (pMin) {
+        queryString = queryString+ " p.price >= "+pMin;
+        paramsCount--;
+        queryString += paramsCount > 0 ? ' AND' : '';
+    }
+    if (pMax) {
+        queryString = queryString+ " p.price <= "+pMax;
+    }
+    if (sortT && sortT === 'dt' && sortV && (sortV === 'asc' || sortV === 'desc')) {
+        queryString = queryString+" ORDER BY  p.createdAt "+(sortV === "asc" ? 'ASC' : 'DESC');
+    }
+    else if (sortT && sortT === 'p' && sortV && (sortV === 'asc' || sortV === 'desc')) {
+        queryString = queryString+" ORDER BY  p.price "+(sortV === "asc" ? 'ASC' : 'DESC');
+    }
+    else {
+        queryString = queryString+" ORDER BY p.id DESC";
     }
     
     connection.query(queryString,
@@ -103,7 +145,7 @@ function searchProducts(searchQuery, cb) {
 }
 
 function productDetails(id, cb) {
-    var queryString = "SELECT * FROM Product p WHERE p.status != 2 AND p.isApproved = true AND p.id = id"
+    var queryString = "SELECT * FROM Product p WHERE p.status != 2 AND p.isApproved = true AND p.id = id";
     connection.query(queryString,
     function(err, rows) {
         if (err) cb(err);
