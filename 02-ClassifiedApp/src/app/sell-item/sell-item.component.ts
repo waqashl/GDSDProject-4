@@ -35,6 +35,7 @@ export class SellItemComponent implements OnInit {
   productPrice = 0;
   selectedFile: File = null;
 
+
   constructor(private fb: FormBuilder,
     private _productService: ProductService, private _categoriesService: CategoriesService) { 
 
@@ -49,7 +50,7 @@ export class SellItemComponent implements OnInit {
     this.addItemFormGroup = this.fb.group({
       productName: ['', Validators.required],
       productDesc: ['', Validators.required],
-      productPrice: ['', Validators.required]
+      productPrice: [0, Validators.required]
     });
   }
 
