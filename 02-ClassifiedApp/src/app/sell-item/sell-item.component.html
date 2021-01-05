@@ -2,7 +2,7 @@
     
     <div class="alert alert-dismissible alert-primary" *ngIf="errorMessage" >
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Error:</strong> All fields are manadatory!
+        <strong>Error:</strong> {{ errorMessageText }}
       </div>
 
     <h2 class="mb-5">Sell an item</h2>
@@ -14,12 +14,9 @@
         <div class="form-row">
             <div class="form-group col-lg-6 ">
                 <label>Category</label>
-                <select class="form-control form-control-lg">
-                    <option>Category1</option>
-                    <option>Category1</option>
-                    <option>Category1</option>
-                    <option>Category1</option>
-                    <option>Category1</option>
+                <!-- <select [(ngModel)]="selectedCategoryID" (change)="selectCategoryOption()" class="form-control form-control-lg" > -->
+                    <select class="form-control form-control-lg">
+                    <option *ngFor="let cats of category?.categories" [ngValue]="cats" >{{cats.name}}</option>
 
                 </select>
                 
@@ -29,30 +26,33 @@
         <div class="form-row">
             <div class="form-group col-lg-6 ">
                 <label>Title of the item</label>
-                <input required formControlName="productName" type="text" class="form-control form-control-lg" id="txtProductName" name="txtProductName" aria-describedby="emailHelp" placeholder="Enter Product or Service name"/>            
+                <input required formControlName="productName" type="text" class="form-control form-control-lg" id="txtProductName" name="txtProductName" placeholder="Enter Product or Service name"/>            
           </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-lg-6 ">
                 <label>Description</label>
-                <textarea required formControlName="productDesc" class="form-control form-control-lg" id="txtDescription" aria-describedby="emailHelp" rows="10" placeholder="Describe your product"></textarea>        
+                <textarea required formControlName="productDesc" class="form-control form-control-lg" id="txtDescription" rows="10" placeholder="Describe your product"></textarea>        
           </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-lg-6 ">
-                <label>Price</label>
-                <input required type="text" formControlName="productPrice" class="form-control form-control-lg" id="txtPrice" aria-describedby="emailHelp" placeholder="Enter Product or Service Price" />            
+                <label>Price (€)</label>
+                <input required type="number" min="0" pattern="[0-9]*" data-politespace data-grouplength="3" data-delimiter="," formControlName="productPrice" class="form-control form-control-lg" id="txtPrice"  placeholder="Enter Product or Service Price" />            
           </div>
         </div>
         
         <div class="form-row">
             <div class="form-group col-lg-6 ">
                 <label>Select Images</label>
-
-                <input required type="file" class="form-control-file" multiple>
-                
+                <input required 
+                formControlName="productImage" 
+                type="file" 
+                accept="image/*" 
+                (change)="processFile($event)"
+                class="form-control-file" multiple>
           </div>
         </div>
 

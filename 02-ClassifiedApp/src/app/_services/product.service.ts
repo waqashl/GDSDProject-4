@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AddItemDTO } from '../_models/add-item-dto';
 import { ProductModelResponse } from '../_models/product-model';
+import { CategoryModelResponse } from '../_models/category-model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +35,8 @@ export class ProductService {
     return this.http.get<ProductModelResponse>(this.baseUrl + url);
   }
 
-  public addProduct(obj: AddItemDTO) : Observable<any> {           
-    return this.http.post(this.baseUrl + '/products', obj);
+  public addProduct(obj: FormData) : Observable<any> {           
+    return this.http.post(this.baseUrl + '/products/', obj);
   }
 
 
