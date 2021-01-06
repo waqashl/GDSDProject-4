@@ -6,10 +6,11 @@ var connection
 
 if(!process.env.dbPath) {
     connection = mysql.createConnection({
-        host     : 'localhost',
+        host     : '127.0.0.1',
         user     : 'root',
         password : 'password',
-        database : 'dbo'
+        database : 'dbo',
+        port : 3306
     });
 }
 else {
@@ -23,6 +24,7 @@ else {
 }
 
 function connectDB(cb) {
+    console.log("Connection successful");
     connection.connect(function(err) {
         cb(err)
     });    

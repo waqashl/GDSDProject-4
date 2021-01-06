@@ -26,17 +26,13 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
-             
-              
             ],
             "styles": [
               "src/styles.css"
-
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/bootstrap/dist/js/bootstrap.js"
-              
             ]
           },
           "configurations": {
@@ -131,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "angular-tour-of-heroes"
+  "defaultProject": "angular-tour-of-heroes",
+  "cli": {
+    "analytics": "b416b812-5af8-4fb7-8dad-5b7f3ac86617"
+  }
 }
