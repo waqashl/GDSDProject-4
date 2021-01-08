@@ -21,6 +21,14 @@ export class ProductsSearchComponent implements OnInit {
   products = {} as ProductModelResponse;
   totalRecords = 0;
   isLoaded = false;
+  sortT: string;
+  sortV: string;
+  pMin: number;
+  pMax: number;
+  sortIndex: number = 0;
+  
+
+
   constructor(private _http: HttpClient,
 		private _categoryService: CategoriesService,
 		private _productService: ProductService) { 
@@ -40,7 +48,6 @@ export class ProductsSearchComponent implements OnInit {
 			//this.products = data;
       //}, error=>{});
     }
-    
   }
 
   getProducts(){    
@@ -51,8 +58,10 @@ export class ProductsSearchComponent implements OnInit {
       console.log('calling product-search.component');
       //console.log(this.searchString);
       
-      this._productService.getProducts(this.searchString).subscribe(data=> {
+      this._productService.getProducts().subscribe(data=> {
       
+        console.log(data);
+        
         let p = data.products;
         if(this.categoryId != 0)
         {
@@ -69,7 +78,7 @@ export class ProductsSearchComponent implements OnInit {
     else
     {
       //top record
-      this._productService.getProducts(this.searchString).subscribe(data=> {
+      this._productService.getProducts().subscribe(data=> {
       
         let p = data.products;
         if(this.categoryId != 0)
@@ -83,8 +92,34 @@ export class ProductsSearchComponent implements OnInit {
       }, error=>{console.log(error)});
     }
 
-    
-   
-}
+  }
+
+  sortChanged() {
+    this.sortT = null;
+    this.sortV = null;
+
+    if(this.sortIndex == 0 || this.sortIndex == 1) {
+      this.sortT = 'dt';
+      this.sortV = this.sortIndex == 1 ? 'asc' : 'desc';
+    }
+    else if(this.sortIndex == 2 || this.sortIndex == 3) {
+      this.sortT = 'p';
+      this.sortV = this.sortIndex == 2 ? 'asc' : 'desc';
+    }
+
+    if(this.sortT && this.sortV) {
+      this._productService.filter.sortT = this.sortT;
+      this._productService.filter.sortV = this.sortV;
+    }
+
+    this.getProducts()
+  }
+
+  priceChanged() {
+    this._productService.filter.pMin = this.pMin;
+    this._productService.filter.pMax = this.pMax;
+    this.getProducts();
+    return false;
+  }
 
 }

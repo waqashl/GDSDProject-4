@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ProductService } from '../_services/product.service';
 
 @Component({
   selector: 'app-search',
@@ -8,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SearchComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute, private _productService: ProductService) { }
 
   searchString: string;
   categoryId: number;
@@ -21,8 +22,9 @@ export class SearchComponent implements OnInit {
       this.searchString = x.get('s') || '';      
       this.categoryId = parseInt(x.get('cat') || '0');
 
-      console.log(this.searchString);
-      console.log(this.categoryId);
+      this._productService.filter.cat = this.categoryId;
+      this._productService.filter.search = this.searchString;
+
     });
   }
 
