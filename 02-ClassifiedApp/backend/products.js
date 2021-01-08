@@ -37,7 +37,7 @@ router.get('/', function(req, res) {
                 return
             }
             if(result.length == 0) {
-                res.status(404).json({status: 'Success', message: 'No Products Found.', products: []});
+                res.status(200).json({status: 'Success', message: 'No Products Found.', products: []});
                 return
             }
             res.status(200).json({status: 'Success', products: result});
