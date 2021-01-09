@@ -15,9 +15,8 @@
             <div class="form-group col-lg-6 ">
                 <label>Category</label>
                 <!-- <select [(ngModel)]="selectedCategoryID" (change)="selectCategoryOption()" class="form-control form-control-lg" > -->
-                    <select class="form-control form-control-lg">
-                    <option *ngFor="let cats of category?.categories" [ngValue]="cats" >{{cats.name}}</option>
-
+                    <select class="form-control form-control-lg" *ngIf="category"  id="ddlCategory" name="ddlCategory" [(ngModel)]="ddlCategory" >
+                    <option *ngFor="let cats of category?.categories" value="cats.id" >{{cats.name}}</option>
                 </select>
                 
           </div>
