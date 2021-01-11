@@ -2,12 +2,19 @@ export class User {
     id?: number;
     email?: string;
     name?: string;
-    password?: string;
-    token?: string;
-    dob?: string;
-    address?: string;
-    postalCode: string;
+    userType?:number;
+    isActive?:number;
+}
 
-    // to parse loginUser Response Model.
-    user: User;
+export class UserDetails{
+    token?:string;
+    user?:User
+}
+
+export class UserModelResponse{
+    name?:String;
+    email?:String;
+    userType?:number;
+    id:number;
+    isActive:number;
 }

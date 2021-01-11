@@ -6,7 +6,7 @@ config = mysql.c
 var connection
 
 if(!process.env.dbPath) {
-    connection = mysql.createConnection({
+   connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
         password : 'password',
@@ -48,6 +48,13 @@ function getUser(email, password, cb) {
     });
 }
 
+function getAllUser(cb){
+    connection.query("SELECT * FROM User",(err,rows)=>{
+        if(err) cb(err)
+        else cb(undefined,rows);
+    })
+}
+
 function getUserofId(id, cb) {
     connection.query("SELECT id,name,address,postalCode,userType,dob,dateAdded,isActive,email FROM User u WHERE u.id = "+id,
     function(err, rows) {
@@ -84,6 +91,27 @@ function getAllCategories(id = undefined, cb) {
         if (err) cb(err);
         else cb(undefined, rows);
     });
+}
+
+function getAllCategoriesForAdmin(cb) {
+    var queryString = "SELECT * FROM Category c"
+
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function getAllProducts(sq,cb){
+    
+    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
+    connection.query(queryString,
+        function(err, rows) {
+            
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
 }
 
 
@@ -153,6 +181,41 @@ function productDetails(id, cb) {
     });
 }
 
+function updateProductStatus(id,status,cb){
+    console.log(status)
+    let queryString;
+    if(status==='approve'){
+    queryString = `UPDATE Product as p SET p.status=0 WHERE p.id = ${id}`
+    }
+    else{
+    queryString = `UPDATE Product as p SET p.status=2 WHERE p.id = ${id}`
+    }
+
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function updateUserStatus(id,status,cb){
+    console.log(status)
+    let queryString;
+    if(status==='block'){
+    queryString = `UPDATE User as u SET u.isActive=0 WHERE u.id = ${id}`
+    }
+    else{
+    queryString = `UPDATE User as u SET u.isActive=1 WHERE u.id = ${id}`
+    }
+
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+
 function addProduct(product, cb) {
 
     console.log(product);
@@ -165,7 +228,7 @@ function addProduct(product, cb) {
         `status`,\
         `price`,\
         `location`,\
-        `thumbnail`) VALUES ('"+product.title+"','"+product.desc+"',"+product.owner+","+product.category+",NOW(),0,"+product.price+",'"+product.location+"','"+product.thumbnail+"')";
+        `thumbnail`) VALUES ('"+product.title+"','"+product.desc+"',"+product.owner+","+product.category+",NOW(),2,"+product.price+",'"+product.location+"','"+product.thumbnail+"')";
 
     connection.query(queryString,
         function(err, rows) {
@@ -174,6 +237,7 @@ function addProduct(product, cb) {
         });
     
 }
+
 function addProductImage(id, imageURLs, cb) {
 
     var queryString = ""
@@ -351,7 +415,12 @@ module.exports = {
     insertChat:insertChat,
     checkAndInsertChatSession: checkAndInsertChatSession,
     updateReadBit: updateReadBit,
-    getNotification: getNotification
+    getNotification: getNotification,
+    updateProductStatus : updateProductStatus,
+    getAllProducts :getAllProducts,
+    getAllUser:getAllUser,
+    updateUserStatus:updateUserStatus,
+    getAllCategoriesForAdmin:getAllCategoriesForAdmin
 
 }
 

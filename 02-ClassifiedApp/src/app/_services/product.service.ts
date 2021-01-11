@@ -46,6 +46,18 @@ export class ProductService {
   }
 
 
+  public updateProductStatus(id: number,status:String){
+    console.log(id)
+    
+    this.http.post<any>(this.baseUrl + "/products/update/status", { id,status }).subscribe(data=> {
+      console.log(data)
+    },
+      error=>console.error);
+ 
+  }
+
+
+   
   public getProducts() : Observable<ProductModelResponse> {    
     var url = "/products";
     let paramAdded = false;
@@ -72,6 +84,12 @@ export class ProductService {
     console.log("Request products: ", url);
     return this.http.get<ProductModelResponse>(this.baseUrl + url);
   }
+
+  public getAllProducts() : Observable<ProductModelResponse> {    
+    var url =  "/products/all"  
+    return this.http.get<ProductModelResponse>(this.baseUrl + url);
+  }
+  
 
 
 }

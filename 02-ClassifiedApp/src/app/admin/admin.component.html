@@ -1,0 +1,82 @@
+<div class="container mainBody">
+    <div class="header">
+      <app-header></app-header>
+    </div>
+    <hr>
+    <div class="mainArea pt-4 mb-5">
+        <ul class="nav nav-tabs">
+            <li class="nav-item" 
+            (click)="switchTab(1)" >
+              <a class="nav-link" [ngClass]="{'active': tab === 1}" aria-current="page"  >Users</a>
+            </li>
+            <li class="nav-item"  (click)="switchTab(2)">
+              <a class="nav-link" [ngClass]="{'active': tab === 2}">Products</a>
+            </li>
+            <li class="nav-item"  (click)="switchTab(3)">
+                <a class="nav-link" [ngClass]="{'active': tab === 3}">Categories</a>
+              </li>
+          </ul>
+          <br/>
+        <div class="col" *ngIf="tab==2">
+            <div class="row">
+                <div *ngFor="let prod of products?.products" class="col-12 col-md-6 col-lg-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{{prod.thumbnail}}" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-title"><a href="#" title="View Product">{{prod.title}}</a></h4>
+                            <p class="card-text"></p>
+                            <div class="row">
+                                <div class="col">
+                                    <p *ngIf="prod.status == 2"> Rejected!! </p>
+                                    <p *ngIf="prod.status != 2"> Approved!! </p>
+
+                                    <p *ngIf="prod.status == 2"  class="btn btn-success" (click)="approve(prod.id)">Approve</p>
+                                    <p *ngIf="prod.status != 2" class="btn btn-danger" (click)="decline(prod.id)">Decline</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="col" *ngIf="tab==1">
+                <div class="row">
+                    <div *ngFor="let user of users" class="col-12 col-md-6 col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="media">
+                                    <a class="thumbnail pull-left" href="#">
+                                        <img class="media-object" src="assets/images/login.png">
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{user.name}}</h4>
+                                        <p>{{user.email}}</p>
+                                    </div>
+                                    <button  class="btn" [ngClass]="user.isActive === 0?'btn-success':'btn-danger'"  (click)="changeUserStatus(user.id,user.isActive)">
+                                        {{user.isActive==1?'block':'unblock'}}
+                                    </button>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col" *ngIf="tab==3">
+            <ul class="list-group" >
+                <li class="list-group-item" *ngFor="let category of categories">{{category.name}}
+                    <button (click)="deleteCategory(category.id)">Delete</button>
+                </li>
+                
+              </ul>
+
+              <div class="add-category">
+                  <input type="text" id="cat"  [(ngModel)]="category"/><button (click)="addCategory()">add</button>
+              </div>
+        </div>
+       
+    </div>  
+  </div>
+  
+  <app-footer></app-footer>

@@ -20,4 +20,24 @@ export class CategoriesService {
 
   }
 
+  public getAllCategoriesForAdmin() : Observable<CategoryModelResponse> {
+    return this.http.get<CategoryModelResponse>(this.baseUrl + "/category/");
+
+  }
+
+  public addCategory(category:string){
+    this.http.post<any>(this.baseUrl+"/category/add",{category}).subscribe(data=>{
+      console.log(data);
+     } ,
+  error=>console.error);
+
+    }
+
+    public deleteCategory(categoryId:number){
+      this.http.post<any>(this.baseUrl+"/category/delete",{categoryId}).subscribe(data=>{
+        console.log(data);
+       } ,
+    error=>console.error);
+  
+      }
 }
