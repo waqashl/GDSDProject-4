@@ -6,7 +6,27 @@ const config = require('./config');
 const jwt = require('jsonwebtoken');
 
 router.post('/add', function(req, res) {
+    let category = req.body.category;
+    sqlManager.addCategory(category,(err,result)=>{
+        if (err) {
+            res.status(500).json({status:'Failed', message: err.message});
+            return
+        }
+       
+        res.status(200).json({status: 'Success', category: result});
+    })
+});
 
+router.post('/delete', function(req, res) {
+    let categoryId = req.body.categoryId;
+    sqlManager.deleteCategory(categoryId,(err,result)=>{
+        if (err) {
+            res.status(500).json({status:'Failed', message: err.message});
+            return
+        }
+       
+        res.status(200).json({status: 'Success', category: result});
+    })
 });
 
 router.get('/', function(req, res) {

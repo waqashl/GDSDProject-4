@@ -17,12 +17,30 @@ export class AdminComponent implements OnInit {
   users:UserModelResponse[]
   tab:number = 1
   categories:Category[]
+  category: string;
+
 
   constructor(private _productService : ProductService,private _userService:UserService,private _categoryService:CategoriesService) {
 
   
 
 }
+
+addCategory() {
+ if(this.category){
+  this._categoryService.addCategory(this.category)
+  this.category = ""
+  this.getCategories()
+ }
+}
+
+deleteCategory(id) {
+  if(id){
+   this._categoryService.deleteCategory(+id)
+   this.getCategories()
+  }
+ }
+
 
   ngOnInit(): void {
    this.updateProducts()
