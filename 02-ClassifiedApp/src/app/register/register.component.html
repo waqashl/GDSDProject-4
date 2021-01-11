@@ -1,0 +1,90 @@
+<div class="global-container" *ngIf="!successSubmitted">
+    <div class="card login-form w-75">
+    <div class="card-body">
+        <h3 class="card-title text-center">Register to E-Market Fulda</h3>
+        <div class="card-text">
+            <!--
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
+            <form class="form-group formCustomRegister"  [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <!-- to error: add class "has-danger" -->
+                <div>
+                    <label for="name">User Name</label>
+                    <input type="text" name="name" class="form-control form-control-sm" id="name" aria-describedby="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
+                    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">Username is required</div>
+                    </div>
+                </div>
+
+                <div >
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control form-control-sm" id="email" aria-describedby="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.email">Email is invalid</div>
+                        <div *ngIf="!f.email.errors.email && f.email.errors.pattern">Please enter your university email address.</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control form-control-sm" id="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="verifyPassword">Confirm Password</label>
+                    <input type="password" name="verifyPassword" class="form-control form-control-sm" id="verifyPassword" formControlName="verifyPassword" [ngClass]="{ 'is-invalid': submitted && f.verifyPassword.errors }"/>
+                    <div *ngIf="submitted && passwordMismatch" class="invalid-feedback" style="display: block;">
+                        <div *ngIf="passwordMismatch">Confirm Password not same</div>
+                    </div>
+                </div>
+
+                <div >
+                    <label for="address">Address</label>
+                    <input type="text" name="address" class="form-control form-control-sm" id="address" aria-describedby="address" formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"/>
+                    <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                        <div *ngIf="f.address.errors.required">Address is required</div>
+                    </div>
+                </div>
+
+                <div >
+                    <label for="postalCode">Postal Code</label>
+                    <input type="text" name="postalCode" class="form-control form-control-sm" id="postalCode" aria-describedby="postalCode" formControlName="postalCode" [ngClass]="{ 'is-invalid': submitted && f.postalCode.errors }"/>
+                    <div *ngIf="submitted && f.postalCode.errors" class="invalid-feedback">
+                        <div *ngIf="f.postalCode.errors.required">Username is required</div>
+                    </div>
+                </div>
+
+                <div >
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" name="dob" class="form-control form-control-sm" id="dob" aria-describedby="dob" formControlName="dob" [ngClass]="{ 'is-invalid': submitted && f.dob.errors }"/>
+                    <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                        <div *ngIf="f.dob.errors.required">Date of birth is required</div>
+                    </div>
+                </div>
+                <br><br>
+                <button type="submit" class="btn btn-primary btn-block"> Register </button>
+                <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+
+                <div class="sign-up">
+                    Already Registered? <a href="/login">Sign In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div *ngIf="successSubmitted">
+    <div class="d-flex justify-content-center">
+        <img class="img-fluid" src="assets/images/success.png" />        
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <h3>User has successfully created</h3>        
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <h5>Click here to <a href="/login"> login</a></h5>        
+    </div>
+</div>

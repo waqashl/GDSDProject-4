@@ -18,6 +18,8 @@ export class CategoryListAndProductComponent implements OnInit {
 
 	cate: string = '';
 
+	ddlSort: string;
+
 	constructor(private _http: HttpClient,
 		private _categoryService: CategoriesService,
 		private _productService: ProductService){
@@ -54,22 +56,21 @@ export class CategoryListAndProductComponent implements OnInit {
 			this._productService.productsDataFromDatabase.next(data);
 		}, error=>{console.log(error)});
 
-		
-
-
-
-
 	}
 
 	onCategory(catId: number){
-
+		console.log("This is my cat", catId);
+		this._productService.filter.cat = catId
 		this._productService.getProducts().subscribe(data=> {
-
 			let p = data.products.filter(m=> m.category == catId);
 			this._productService.productsDataFromDatabase.next({products: p} as ProductModelResponse);
 		}, error=>{console.log(error)});
 		
 		return false;
+	}
+
+	onChangeSort(){
+		alert(this.ddlSort);
 	}
 
 

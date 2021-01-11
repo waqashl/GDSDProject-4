@@ -23,11 +23,9 @@ export class AuthenticationService {
     private baseUrl = environment.apiUrl;
 
     login(email: string, password: string) {
-
         return this.http.post<any>(this.baseUrl + "/user/login", { email, password })
         //return this.http.post<any>(`${environment.apiUrl}+/user/login`, { email, password })
             .pipe(map(user => {
-
                 console.log(user)
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
@@ -36,9 +34,18 @@ export class AuthenticationService {
             }));
     }
 
+    register(user: User) {
+        return this.http.post<any>(this.baseUrl+'/user/register', user)
+        .pipe(map( res => {
+            console.log(res);
+            return res;
+        }));
+    }
+
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
+
 }

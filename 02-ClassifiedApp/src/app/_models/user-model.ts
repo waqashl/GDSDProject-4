@@ -17,5 +17,4 @@ export class UserModelResponse{
     userType?:number;
     id:number;
     isActive:number;
-
 }

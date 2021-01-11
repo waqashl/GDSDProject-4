@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
   ddlCategory: string = '';
   categories = {} as CategoryModelResponse;
   chatNotificationCount: string = '';
+  loggedInUserId: string = '';
 
   constructor(
     private _fakeService: FakeServiceForTestingService,
@@ -55,17 +56,22 @@ export class HeaderComponent implements OnInit {
       (error) => {}
     );
 
-    //TODO ADNAN
-    //SET loggedInUserID
-    this._chatService.getNotification('3');
-    this._chatService.chatNotification.subscribe((data) => {
-      if (JSON.stringify(data) !== '{}') {
-        //console.log('asdfasd')
-        console.log(data);
 
-        this.chatNotificationCount = data.chat[0].totalCount;
-      }
+    this._authServie.currentUser.subscribe(data=>{    
+      this.loggedInUserId = data.user.id.toString();
+
+      this._chatService.getNotification(this.loggedInUserId);
+      this._chatService.chatNotification.subscribe((data) => {
+        if (JSON.stringify(data) !== '{}') {
+          //console.log('asdfasd')
+          console.log(data);
+
+          this.chatNotificationCount = data.chat[0].totalCount;
+        }
     });
+    
+    });
+    
   }
 
   searchClicked() {

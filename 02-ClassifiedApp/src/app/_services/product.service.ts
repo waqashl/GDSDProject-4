@@ -12,6 +12,22 @@ export class ProductService {
 
   private baseUrl = environment.apiUrl;
 
+  filter : {
+    search: string,
+    pMin: number,
+    pMax: number,
+    cat: number,
+    sortT: string,
+    sortV: string,
+  } = {
+    search: null,
+    pMin: null,
+    pMax: null,
+    cat: null,
+    sortT: null,
+    sortV: null,
+  }
+
   constructor(private http: HttpClient) {    
   }
   
@@ -41,8 +57,31 @@ export class ProductService {
   }
 
 
-  public getProducts(search: string = '') : Observable<ProductModelResponse> {    
-    var url = search == '' ? "/products" : "/products?sq=" + search;     
+   
+  public getProducts() : Observable<ProductModelResponse> {    
+    var url = "/products";
+    let paramAdded = false;
+    if(this.filter.search) {
+      url += "?sq="+this.filter.search;
+      paramAdded = true
+    }
+    if(this.filter.cat) {
+      url += (paramAdded ? '&':'?') + "cat="+this.filter.cat;
+      paramAdded = true
+    }
+    if(this.filter.pMin && this.filter.pMin != 0) {
+      url += (paramAdded ? '&':'?') + "pMin="+this.filter.pMin;
+      paramAdded = true
+    }
+    if(this.filter.pMax && this.filter.pMax != 0) {
+      url += (paramAdded ? '&':'?') + "pMax="+this.filter.pMax;
+      paramAdded = true
+    }
+    if(this.filter.sortT && this.filter.sortV) {
+      url += (paramAdded ? '&':'?') + "sortT="+this.filter.sortT+"&sortV="+this.filter.sortV;
+      paramAdded = true
+    }
+    console.log("Request products: ", url);
     return this.http.get<ProductModelResponse>(this.baseUrl + url);
   }
 

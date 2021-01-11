@@ -10,9 +10,11 @@ import { SearchComponent } from './search/search.component';
 import { SellItemComponent } from './sell-item/sell-item.component';
 import { ChatUserComponent } from './chat-user/chat-user.component';
 import { AdminComponent } from './admin/admin.component';
+import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
+  { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, children: [
 

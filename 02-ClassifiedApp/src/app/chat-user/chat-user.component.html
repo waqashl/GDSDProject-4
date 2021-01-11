@@ -27,7 +27,7 @@ alert('asdfasdf');
 						<div class="d-flex align-items-start">
 							<img src="assets/images/profile-user.png" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
 							<div class="flex-grow-1 ml-3">
-								{{c.ProductName}} ({{c.opponentUserName}})								
+								{{c.ProductName}} ({{c.opponentUserName}})	<span *ngIf="c.unreadMessages != 0" class="badge badge-primary badge-pill">{{c.unreadMessages}}</span>							
 								<div class="small"><span class="fas fa-circle chat-online"></span> {{c.topMessage}}</div>
 							</div>
 							
@@ -62,7 +62,7 @@ alert('asdfasdf');
 
 							<div [ngClass]="(loggedInUserId == chatDetail.SenderID)?'chat-message-left':'chat-message-right'" class="pb-4" *ngFor="let chatDetail of chatDetail?.chat">
 								<div>
-									<img src="assets/images/profile-user.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+									<img src="assets/images/chat_user.png" class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
 									<div class="text-muted small text-nowrap mt-2">{{ chatDetail.Date | date:"HH:mm"}}
 									</div>
 								</div>
