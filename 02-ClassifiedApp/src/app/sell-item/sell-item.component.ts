@@ -21,7 +21,7 @@ export class SellItemComponent implements OnInit {
   productName = "";
   productDesc = "";
   productPrice = 0;
-  selectedFile: File = null;
+  selectedFile: File[] = [];
   ddlCategory: string = '';
 
 
@@ -51,8 +51,8 @@ export class SellItemComponent implements OnInit {
   }
 
   processFile(event) {
-    const file: File = event.target.files[0];
-    this.selectedFile = file;
+    const files: File[] = event.target.files;
+    this.selectedFile = files;
     console.log(event);
   }
 
@@ -80,7 +80,10 @@ export class SellItemComponent implements OnInit {
     fd.append('owner', "1");
     fd.append('location', "");
     fd.append('category', "1");
-    fd.append('images', this.selectedFile, this.selectedFile?.name);
+    // fd.append('images', JSON.stringify(this.selectedFile));
+    for (let file of this.selectedFile) {
+      fd.append('images', file);
+  }
 
     console.log("Ready to roll");
     this._productService.addProduct(fd).subscribe(data=>{
