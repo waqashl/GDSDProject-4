@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { AddItemDTO } from '../_models/add-item-dto';
 import { ProductModelResponse } from '../_models/product-model';
 import { CategoryModelResponse } from '../_models/category-model';
+import { ProductDetailModelResponse } from '../_models/product-detail-model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,11 @@ export class ProductService {
   public getProducts(search: string = '') : Observable<ProductModelResponse> {    
     var url = search == '' ? "/products" : "/products?sq=" + search;     
     return this.http.get<ProductModelResponse>(this.baseUrl + url);
+  }
+
+  public getProductsDetail(id: string = '') : Observable<ProductDetailModelResponse> {    
+    var url  = "/products?id=" + id;     
+    return this.http.get<ProductDetailModelResponse>(this.baseUrl + url);
   }
 
   public addProduct(obj: FormData) : Observable<any> {           

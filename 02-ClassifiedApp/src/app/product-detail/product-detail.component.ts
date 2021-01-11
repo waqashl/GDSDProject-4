@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService } from '../_services/product.service';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { ProductDetail, ProductImage, ProductDetailModelResponse } from '../_models/product-detail-model';
 
 @Component({
   selector: 'app-product-detail',
@@ -9,73 +11,87 @@ import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov
 })
 export class ProductDetailComponent implements OnInit {
 
-  constructor(private router:Router,
-    private activatedRoute: ActivatedRoute ) { 
+  constructor(private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private _productService: ProductService) {
 
-    }
-  
+  }
+
+
+  prodId: string;
+  productResponse = {} as ProductDetailModelResponse;
+  product: ProductDetail;
+  productImage: ProductImage[];
+
   galleryOptions: NgxGalleryOptions[];
-  galleryImages: NgxGalleryImage[];
+  galleryImages: NgxGalleryImage[] = [];
 
   ngOnInit(): void {
 
-    this.galleryOptions = [
-      {
-        width: '100%',
-        //height: '400px',
-        thumbnailsColumns: 4,
-        imageAnimation: NgxGalleryAnimation.Slide,
-        previewCloseOnClick: true,
-        
-      },
-      // max-width 800
-      {
-        breakpoint: 800,
-        width: '100%',
-        height: '600px',
-        imagePercent: 80,
-        thumbnailsPercent: 20,
-        thumbnailsMargin: 20,
-        thumbnailMargin: 20
-      },
-      // max-width 400
-      {
-        breakpoint: 400,
-        preview: true
-      }
-    ];
+    this.activatedRoute.paramMap.subscribe((x) => {
+      this.prodId = x.get('id') || '';
+      this.getProductDetail(this.prodId);
 
-    this.galleryImages = [
-      {
-        small: 'assets/images/gallery/abc1.jpg',
-        medium: 'assets/images/gallery/abc1.jpg',
-        big: 'assets/images/gallery/abc1.jpg'
-      },
-      {
-        small: 'assets/images/gallery/abc2.jpg',
-        medium: 'assets/images/gallery/abc2.jpg',
-        big: 'assets/images/gallery/abc2.jpg'
-      },
-      {
-        small: 'assets/images/gallery/abc3.jpg',
-        medium: 'assets/images/gallery/abc3.jpg',
-        big: 'assets/images/gallery/abc3.jpg'
-      },
-      {
-        small: 'assets/images/gallery/abc4.jpg',
-        medium: 'assets/images/gallery/abc4.jpg',
-        big: 'assets/images/gallery/abc4.jpg'
-      },
-    
-    ];
+      this.galleryOptions = [
+        {
+          width: '100%',
+          //height: '400px',
+          thumbnailsColumns: 4,
+          imageAnimation: NgxGalleryAnimation.Slide,
+          previewCloseOnClick: true,
+  
+        },
+        // max-width 800
+        {
+          breakpoint: 800,
+          width: '100%',
+          height: '600px',
+          imagePercent: 80,
+          thumbnailsPercent: 20,
+          thumbnailsMargin: 20,
+          thumbnailMargin: 20
+        },
+        // max-width 400
+        {
+          breakpoint: 400,
+          preview: true
+        }
+      ];
+    });
+
   }
 
-  chatUser(){
+  setImagesOnGallary() {
+
+    for (var i in this.productImage) {
+      this.galleryImages.push({
+        small: this.productImage[i].image,
+        medium: this.productImage[i].image,
+        big: this.productImage[i].image,
+        url: this.productImage[i].image
+      });
+    }
+  }
+
+  chatUser() {
     //TODO
     //ReceiverID would be Owner of this product
     //SenderID would be LoggedIn user:
-    
-    this.router.navigate(['./home/chat', {prodId:21, rec:3}]);
+
+    this.router.navigate(['./home/chat', { prodId: 21, rec: 3 }]);
+  }
+
+  // API CALLING
+  getProductDetail(productID: string) {
+    this._productService.getProductsDetail(productID).subscribe(data => {
+      let p = data.products;
+      this.productResponse = { products: p } as ProductDetailModelResponse;
+      this.product = this.productResponse.products[0];
+      this.productImage = data.productImages;
+      this.setImagesOnGallary();
+    }, error => {
+      console.log(error);
+    });
   }
 
 }
