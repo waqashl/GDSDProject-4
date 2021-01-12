@@ -78,12 +78,12 @@ export class SellItemComponent implements OnInit {
     fd.append('desc', this.addItemFormGroup.get('productDesc')?.value);
     fd.append('price', this.addItemFormGroup.get('productPrice')?.value);
     fd.append('owner', "1");
-    fd.append('location', "");
+    fd.append('location', "Fulda");
     fd.append('category', "1");
     // fd.append('images', JSON.stringify(this.selectedFile));
     for (let file of this.selectedFile) {
       fd.append('images', file);
-  }
+    }
 
     console.log("Ready to roll");
     this._productService.addProduct(fd).subscribe(data=>{

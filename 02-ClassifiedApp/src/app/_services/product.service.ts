@@ -53,8 +53,9 @@ export class ProductService {
     return this.http.get<ProductDetailModelResponse>(this.baseUrl + url);
   }
 
-  public addProduct(obj: FormData) : Observable<any> {           
-    return this.http.post(this.baseUrl + '/products/', obj);
+  public addProduct(obj: FormData) : Observable<any> {
+          
+    return this.http.post(this.baseUrl + '/products', obj);
   }
 
   public updateProductStatus(id: number,status:String){

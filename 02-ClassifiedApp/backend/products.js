@@ -8,11 +8,6 @@ const { route } = require('./user');
 const upload = multer({ dest: 'uploads/' })
 
 
-router.post('/add', function(req, res) {
-
-    res.status(200)
-});
-
 router.get('/', function(req, res) {
 
     id = req.query.id;

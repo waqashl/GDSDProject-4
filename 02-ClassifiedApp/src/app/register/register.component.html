@@ -8,7 +8,7 @@
             <form class="form-group formCustomRegister"  [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <!-- to error: add class "has-danger" -->
                 <div>
-                    <label for="name">User Name</label>
+                    <label for="name">Full Name</label>
                     <input type="text" name="name" class="form-control form-control-sm" id="name" aria-describedby="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"/>
                     <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
                         <div *ngIf="f.name.errors.required">Username is required</div>
