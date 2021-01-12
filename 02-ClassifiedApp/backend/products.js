@@ -60,15 +60,15 @@ router.get('/all', function(req, res) {
 });
 
 router.post('/update/status',(req,res)=>{
-let id = req.body.id
-let status = req.body.status
+let id = req.body.id;
+let status = req.body.status;
 
 const update= sqlManager.updateProductStatus(id,status,(uErr,uRes)=>{
-    console.log(uRes,uErr)
+    console.log(uRes,uErr);
     if(uErr){
-        res.status(404).send(uErr)
+        res.status(404).send(uErr);
     }
-    res.status(200).send(uRes)
+    res.status(200).send(uRes);
 })
 })
 
@@ -77,7 +77,7 @@ router.post('/',upload.array('images',10), function(req, res) {
     var thumbnail = "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png";
 
     if(req.files && req.files.length > 0) {
-        thumbnail = "http://ec2-54-167-29-120.compute-1.amazonaws.com:2000/"+req.files[0].path;
+        thumbnail = req.files[0].path;
     }
 
     let p = { 

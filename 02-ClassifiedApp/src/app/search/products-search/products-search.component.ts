@@ -11,12 +11,9 @@ import { ProductService } from 'src/app/_services/product.service';
 })
 export class ProductsSearchComponent implements OnInit {
   
-  
   @Input() categoryId: number;
   @Input() searchString: string;
   @Input() isTopRecord: boolean;
- 
-
 
   products = {} as ProductModelResponse;
   totalRecords = 0;
@@ -42,7 +39,6 @@ export class ProductsSearchComponent implements OnInit {
 
     if(this.categoryId != undefined && this.searchString != undefined)
     {
-
       this.getProducts();
       //this._productService.productsDataFromDatabase.subscribe(data=> {      
 			//this.products = data;
@@ -104,15 +100,14 @@ export class ProductsSearchComponent implements OnInit {
     }
     else if(this.sortIndex == 2 || this.sortIndex == 3) {
       this.sortT = 'p';
-      this.sortV = this.sortIndex == 2 ? 'asc' : 'desc';
+      this.sortV = this.sortIndex == 3 ? 'asc' : 'desc';
     }
 
     if(this.sortT && this.sortV) {
       this._productService.filter.sortT = this.sortT;
       this._productService.filter.sortV = this.sortV;
     }
-
-    this.getProducts()
+    this.getProducts();
   }
 
   priceChanged() {
