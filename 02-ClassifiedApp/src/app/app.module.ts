@@ -29,6 +29,8 @@ import { ProductsSearchComponent } from './search/products-search/products-searc
 import { LoaderAnimationComponent } from './_helperComponents/loader-animation/loader-animation.component';
 import { ChatUserComponent } from './chat-user/chat-user.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { AdminComponent } from './admin/admin.component';
+import { RegisterComponent } from './register/register.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:2000', options: {
   withCredentials: false
@@ -49,7 +51,9 @@ const config: SocketIoConfig = { url: 'http://localhost:2000', options: {
     SellItemComponent,
     ProductsSearchComponent,
     LoaderAnimationComponent,
-    ChatUserComponent
+    ChatUserComponent,
+    AdminComponent,
+    RegisterComponent
       ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ const { stringify } = require('querystring');
 const sqlManager = require('./sql');
 const config = require('./config');
 const multer  = require('multer');
+const { route } = require('./user');
 const upload = multer({ dest: 'uploads/' })
 
 
@@ -30,7 +31,26 @@ router.get('/', function(req, res) {
         });
     }
     else {
-        sqlManager.searchProducts(req.query.sq, function(err, result) {
+        sqlManager.searchProducts(req.query.sq, req.query.cat, req.query.pMin, req.query.pMax, req.query.sortT, req.query.sortV , function(err, result) {
+            if (err) {
+                res.status(500).json({status:'Failed', message: err.message});
+                return
+            }
+            if(result.length == 0) {
+                res.status(200).json({status: 'Success', message: 'No Products Found.', products: []});
+                return
+            }
+            res.status(200).json({status: 'Success', products: result});
+        })    
+    }
+
+});
+
+
+router.get('/all', function(req, res) {
+
+  
+        sqlManager.getAllProducts("",function(err, result) {
             if (err) {
                 res.status(500).json({status:'Failed', message: err.message});
                 return
@@ -41,9 +61,21 @@ router.get('/', function(req, res) {
             }
             res.status(200).json({status: 'Success', products: result});
         })    
-    }
 
 });
+
+router.post('/update/status',(req,res)=>{
+let id = req.body.id
+let status = req.body.status
+
+const update= sqlManager.updateProductStatus(id,status,(uErr,uRes)=>{
+    console.log(uRes,uErr)
+    if(uErr){
+        res.status(404).send(uErr)
+    }
+    res.status(200).send(uRes)
+})
+})
 
 router.post('/',upload.array('images',10), function(req, res) {
 
@@ -104,16 +136,21 @@ router.post('/',upload.array('images',10), function(req, res) {
                     res.status(404).json({status: 'Failed', message: 'Cannot add product.'});
                     return;
                 }
-                let files = req.files.map((f)=> {return "http://ec2-54-167-29-120.compute-1.amazonaws.com:2000/"+f.path;});
-                sqlManager.addProductImage(pRes.insertId, files, (imageErr, imageRes) => {
-                    if(imageErr) {
-                        console.log(imageErr);
-                        res.status(500).json({status: "Failed", message: imageErr.message});
-                        return
-                    }
+                let files = req.files.map((f)=> {return f.path;});
+                if(files.length > 0) {
+                    sqlManager.addProductImage(pRes.insertId, files, (imageErr, imageRes) => {
+                        if(imageErr) {
+                            console.log(imageErr);
+                            res.status(500).json({status: "Failed", message: imageErr.message});
+                            return
+                        }
+                        res.status(200).json({ status: "Success", message: "Product will be available soon after approval from admin"});
+                    });
+                }
+                else {
                     res.status(200).json({ status: "Success", message: "Product will be available soon after approval from admin"});
-                });
-                
+
+                }
             });
     
         });

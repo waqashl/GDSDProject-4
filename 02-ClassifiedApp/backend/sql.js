@@ -5,27 +5,25 @@ config = mysql.c
 
 var connection
 
-if (!process.env.dbPath) {
-    connection = mysql.createConnection({
-        host: 'localhost',
-        port: 3306,
-        user: 'root',
-        password: '12345678',
-        database: 'dbo',
+if(!process.env.dbPath) {
+   connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : 'password',
+        database : 'dbo',
         multipleStatements: true
     });
 }
 else {
     connection = mysql.createConnection({
-        host: 'classifiedappdb.csyrkhn1j1ii.us-east-1.rds.amazonaws.com',
-        port: 3306,
-        user: 'admin',
-        password: '{C^^$^+E4p}x~H&5',
-        database: 'dbo',
+        host     : 'classifiedappdb.csyrkhn1j1ii.us-east-1.rds.amazonaws.com',
+        port     : 3306,
+        user     : 'admin',
+        password : '{C^^$^+E4p}x~H&5',
+        database : 'dbo',
         multipleStatements: true
     });
 }
-
 function connectDB(cb) {
     connection.connect(function (err) {
         cb(err)
@@ -48,6 +46,13 @@ function getUser(email, password, cb) {
             if (err) cb(err);
             else cb(undefined, rows);
         });
+}
+
+function getAllUser(cb){
+    connection.query("SELECT * FROM User",(err,rows)=>{
+        if(err) cb(err)
+        else cb(undefined,rows);
+    })
 }
 
 function getUserofId(id, cb) {
@@ -75,7 +80,7 @@ function deleteCategory(id, cb) {
 }
 
 function getAllCategories(id = undefined, cb) {
-    var queryString = "SELECT * FROM Category c WHERE c.isActive = true"
+    var queryString = "SELECT * FROM Category c WHERE c.isActive = true";
 
     if (id) {
         queryString += " AND c.id = " + id;
@@ -88,14 +93,76 @@ function getAllCategories(id = undefined, cb) {
         });
 }
 
+function getAllCategoriesForAdmin(cb) {
+    var queryString = "SELECT * FROM Category c"
+
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function getAllProducts(sq,cb){
+    
+    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
+    connection.query(queryString,
+        function(err, rows) {
+            
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
 
 
 // Product Queries... 
-function searchProducts(searchQuery, cb) {
-    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail FROM Product p"
+function searchProducts(searchQuery, cat, pMin, pMax, sortT, sortV, cb) {
+    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail, p.createdAt FROM Product p";
+    var paramsCount = 0
+    if (searchQuery) {
+        paramsCount++;
+    }
+    if (cat) {
+        paramsCount++;
+    }
+    if (pMin) {
+        paramsCount++;
+    }
+    if (pMax) {
+        paramsCount++;
+    }
+
+    if(paramsCount > 0) {
+        queryString += ' WHERE'
+    }
 
     if (searchQuery) {
-        queryString = queryString + " WHERE p.title LIKE '%" + searchQuery + "%'"
+        queryString = queryString+" p.title LIKE '%"+searchQuery+"%'";
+        paramsCount--;
+        queryString += paramsCount > 0 ? ' AND' : '';
+    }
+    if (cat) {
+        queryString = queryString+" p.category = "+cat;
+        paramsCount--;
+        queryString += paramsCount > 0 ? ' AND' : '';
+    }
+    if (pMin) {
+        queryString = queryString+ " p.price >= "+pMin;
+        paramsCount--;
+        queryString += paramsCount > 0 ? ' AND' : '';
+    }
+    if (pMax) {
+        queryString = queryString+ " p.price <= "+pMax;
+    }
+    if (sortT && sortT === 'dt' && sortV && (sortV === 'asc' || sortV === 'desc')) {
+        queryString = queryString+" ORDER BY  p.createdAt "+(sortV === "asc" ? 'ASC' : 'DESC');
+    }
+    else if (sortT && sortT === 'p' && sortV && (sortV === 'asc' || sortV === 'desc')) {
+        queryString = queryString+" ORDER BY  p.price "+(sortV === "asc" ? 'ASC' : 'DESC');
+    }
+    else {
+        queryString = queryString+" ORDER BY p.id DESC";
     }
 
     connection.query(queryString,
@@ -104,6 +171,42 @@ function searchProducts(searchQuery, cb) {
             else cb(undefined, rows);
         });
 }
+
+function productDetails(id, cb) {
+    var queryString = "SELECT * FROM Product p WHERE p.status != 2 AND p.isApproved = true AND p.id = id";
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function updateProductStatus(id,status,cb){
+    console.log(status)
+    let queryString;
+    if(status==='approve'){
+    queryString = `UPDATE Product as p SET p.status=0 WHERE p.id = ${id}`
+    }
+    else{
+    queryString = `UPDATE Product as p SET p.status=2 WHERE p.id = ${id}`
+    }
+
+    connection.query(queryString,
+    function(err, rows) {
+        if (err) cb(err);
+        else cb(undefined, rows);
+    });
+}
+
+function updateUserStatus(id,status,cb){
+    console.log(status)
+    let queryString;
+    if(status==='block'){
+    queryString = `UPDATE User as u SET u.isActive=0 WHERE u.id = ${id}`
+    }
+    else{
+    queryString = `UPDATE User as u SET u.isActive=1 WHERE u.id = ${id}`
+    }
 
 function productDetails(id, user_id, cb) {
     // var queryString = "SELECT * FROM dbo.Product p where p.status != 2 AND p.id=" + id;
@@ -119,7 +222,6 @@ function productDetails(id, user_id, cb) {
                         else {
                             cb(undefined, rows, images);
                         }
-
                     }
                 );
             }
@@ -127,6 +229,7 @@ function productDetails(id, user_id, cb) {
     // var productDetail =connection.query(queryString);
     // console.log(productDetail);
 }
+
 
 function addProduct(product, cb) {
 
@@ -141,7 +244,6 @@ function addProduct(product, cb) {
         `price`,\
         `location`,\
         `thumbnail`) VALUES ('"+ product.title + "','" + product.desc + "'," + product.owner + "," + product.category + ",NOW(),0," + product.price + ",'" + product.location + "','" + product.thumbnail + "')";
-
     connection.query(queryString,
         function (err, rows) {
             if (err) cb(err);
@@ -149,6 +251,7 @@ function addProduct(product, cb) {
         });
 
 }
+
 function addProductImage(id, imageURLs, cb) {
 
     var queryString = ""
@@ -326,7 +429,12 @@ module.exports = {
     insertChat: insertChat,
     checkAndInsertChatSession: checkAndInsertChatSession,
     updateReadBit: updateReadBit,
-    getNotification: getNotification
+    getNotification: getNotification,
+    updateProductStatus : updateProductStatus,
+    getAllProducts :getAllProducts,
+    getAllUser:getAllUser,
+    updateUserStatus:updateUserStatus,
+    getAllCategoriesForAdmin:getAllCategoriesForAdmin
 
 }
 

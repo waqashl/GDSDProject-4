@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
   ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
+    
       this.router.navigate(['/']);
     }
   }
@@ -50,7 +51,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log("submit");
+    console.log("submit", this.f);
 
     // stop here if form is invalid
     if (this.loginForm?.invalid) {

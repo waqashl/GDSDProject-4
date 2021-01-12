@@ -7,6 +7,32 @@
   <strong>Found {{totalRecords}} records...</strong>
 </div>
 
+
+
+<div clas="row" *ngIf="isTopRecord == false">
+ 
+</div>
+
+<div class="mt-2 mb-1" *ngIf="isTopRecord == false">
+  <div class="form-row">
+    <div class="col-lg-3  mb-3">
+      <input type="text" class="form-control form-control-lg" id="boxMin" name="boxMin" type="text" #boxMin (keyup.enter)="(priceChanged())" [(ngModel)]="pMin" placeholder="Minimum Price">
+    </div>
+    <div class="col-lg-3 mb-3">
+      <input type="text" class="form-control form-control-lg" id="boxMax" name="boxMax" type="text" #boxMax (keyup.enter)="(priceChanged())" [(ngModel)]="pMax" placeholder="Maximum Price">
+    </div>
+    <div class="col-lg-6 mb-3">
+      <select class="form-control form-control-lg" id="sortingOption" (change)="sortChanged()" [(ngModel)]="sortIndex">
+        <option value="0">Date(Recent First)</option>
+        <option value="1">Date(Oldest First)</option>
+        <option value="2">Price(Highest First)</option>
+        <option value="3">Price(Lowest First)</option>
+    </select>
+    </div>
+  </div>
+</div>
+
+
 <div class="container">
     <div class="row">
       <div class="col-md-4" *ngFor="let prod of products?.products">
