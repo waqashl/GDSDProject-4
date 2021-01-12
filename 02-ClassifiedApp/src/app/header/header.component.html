@@ -34,7 +34,7 @@
           </button>
         </div>
 
-        <div class="p-2" *ngIf="user.userType===0">
+        <div class="p-2" *ngIf="user?.userType===0">
           <button type="button" class="btn btn-primary" [routerLink]="['/admin']"> Admin Panel </button>
           </div>
 
