@@ -12,15 +12,7 @@ const { Socket } = require('dgram');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors({
-    origin: ['http://gdsddata.s3-website-us-east-1.amazonaws.com', 'http://ec2-54-167-29-120.compute-1.amazonaws.com:2000/uploads/0ba932a544526fc29d1116286b257775'],
-    methods: ['GET', 'POST'],
-    credentials:false
-    //allowedHeaders: [{"Access-Control-Allow-Headers": "Content-Type, Authorization",
-    //"Access-Control-Allow-Origin": config.allowedOrigins,
-    //"Access-Control-Allow-Credentials": true}]
-
-}));
+app.use(cors());
 
 app.use(morgan('dev'));
 
