@@ -118,8 +118,9 @@ function getAllProducts(sq,cb){
 
 
 // Product Queries... 
+//Product Status, 
 function searchProducts(searchQuery, cat, pMin, pMax, sortT, sortV, cb) {
-    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail, p.createdAt FROM Product p";
+    var queryString = "SELECT p.id, p.title, p.location, p.status, p.category, p.price, p.thumbnail, p.createdAt FROM Product p WHERE p.status = 1";
     var paramsCount = 0
     if (searchQuery) {
         paramsCount++;
@@ -135,7 +136,7 @@ function searchProducts(searchQuery, cat, pMin, pMax, sortT, sortV, cb) {
     }
 
     if(paramsCount > 0) {
-        queryString += ' WHERE'
+        queryString += ' AND'
     }
 
     if (searchQuery) {
@@ -186,7 +187,7 @@ function updateProductStatus(id,status,cb){
     console.log(status)
     let queryString;
     if(status==='approve'){
-    queryString = `UPDATE Product as p SET p.status=0 WHERE p.id = ${id}`
+    queryString = `UPDATE Product as p SET p.status=1 WHERE p.id = ${id}`
     }
     else{
     queryString = `UPDATE Product as p SET p.status=2 WHERE p.id = ${id}`
