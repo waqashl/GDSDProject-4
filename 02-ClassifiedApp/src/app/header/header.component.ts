@@ -36,7 +36,13 @@ export class HeaderComponent implements OnInit {
     private _chatService: ChatService
   ) {
     
-    this.user = _authServie.currentUserValue.user;
+
+    if(_authServie.currentUserValue) {
+      this.user = _authServie.currentUserValue.user;
+    }
+    else {
+      router.navigate(['/login']);
+    }
 
     console.log(this.user)
   }

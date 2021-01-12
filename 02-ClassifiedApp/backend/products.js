@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
     id = req.query.id;
 
     if(id) {
-        sqlManager.productDetails(id, function(err, result) {
+        sqlManager.productDetails(id, '1', function(err, result, images) {
             if (err) {
                 res.status(500).json({status:'Failed', message: err.message});
                 return
@@ -27,8 +27,7 @@ router.get('/', function(req, res) {
                 res.status(404).json({status: 'Success', message: 'Product not found.'});
                 return
             }
-            res.status(200).json({status: 'Success', products: result});
-    
+            res.status(200).json({status: 'Success', products: result, productImages:images});
         });
     }
     else {

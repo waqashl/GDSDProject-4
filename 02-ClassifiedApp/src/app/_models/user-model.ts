@@ -4,6 +4,12 @@ export class User {
     name?: string;
     userType?:number;
     isActive?:number;
+    address?: string;
+    postalCode?: string;
+    dob?: string;
+    password?: string;
+    
+    user: User;
 }
 
 export class UserDetails{

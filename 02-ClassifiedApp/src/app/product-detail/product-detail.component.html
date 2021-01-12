@@ -1,6 +1,6 @@
-<div class="detailPage">
+<div class="detailPage"> 
 
-      <h2 class="mb-5">Apple Pencil 1st generation</h2>
+      <h2 class="mb-5">{{product.title}}</h2>
 
       <div class="row">
         <div class="col-md-8">
@@ -24,7 +24,7 @@
               <div class="card-body">
                 <h5 class="card-title mb-0">Description</h5>
 
-                <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                <p class="card-text">{{product.desc}}</p>
               </div>
             </div>
 
@@ -34,17 +34,17 @@
         <div class="col-md-4">
           <div class="card text-white bg-success mb-3">
             <div class="card-body">
-              <h4 class="card-title">$600</h4>
-              <p class="card-text">Posted on: <strong>11.22.2020</strong></p>
+              <h4 class="card-title">${{product.price}}</h4>
+              <p class="card-text">Posted on: <strong>{{ product.createdAt | date: 'MMM dd, yyyy'}}</strong></p>
             </div>
           </div>
 
           <div class="card border-success mb-3">
             <div class="card-header">Seller Details</div>
             <div class="card-body">
-              <h4 class="card-title mb-0">Name</h4>
-              <p class="card-text mb-0">Phone: 012347857328</p>
-              <p class="card-text">Email: abc@abc.com</p>
+              <h4 class="card-title mb-0">Name: {{product.ownerName}}</h4>
+              <!-- <p class="card-text mb-0">Phone: 012347857328</p> -->
+              <p class="card-text">Email: {{product.ownerEmail}}</p>
               <button type="button" class="btn btn-primary" (click)="chatUser()">Chat with seller</button>
             </div>
           </div>
