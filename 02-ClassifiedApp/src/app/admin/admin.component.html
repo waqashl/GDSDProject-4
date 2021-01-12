@@ -28,9 +28,9 @@
                             <div class="row">
                                 <div class="col">
                                     <p *ngIf="prod.status == 2"> Rejected!! </p>
-                                    <p *ngIf="prod.status != 2"> Approved!! </p>
+                                    <p *ngIf="prod.status == 1"> Approved!! </p>
 
-                                    <p *ngIf="prod.status == 2"  class="btn btn-success" (click)="approve(prod.id)">Approve</p>
+                                    <p *ngIf="prod.status != 1"  class="btn btn-success" (click)="approve(prod.id)">Approve</p>
                                     <p *ngIf="prod.status != 2" class="btn btn-danger" (click)="decline(prod.id)">Decline</p>
                                 </div>
                                 
