@@ -50,7 +50,7 @@ export class ChatUserComponent implements OnInit {
       this._authService.currentUser.subscribe(data=>{
         console.log(data);
         
-        this.loggedInUserId = data.id.toString();
+        this.loggedInUserId = data.user.id.toString();
 
         if(this.prodId != '' && this.receiverId != ''){
           this._chatService

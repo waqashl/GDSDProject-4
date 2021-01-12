@@ -27,7 +27,7 @@ alert('asdfasdf');
 						<div class="d-flex align-items-start">
 							<img src="assets/images/profile-user.png" class="rounded-circle mr-1" alt="Vanessa Tucker" width="40" height="40">
 							<div class="flex-grow-1 ml-3">
-								{{c.ProductName}} ({{c.opponentUserName}})	<span *ngIf="c.unreadMessages != '0' " class="badge badge-primary badge-pill">{{c.unreadMessages}}</span>							
+								{{c.ProductName}} ({{c.opponentUserName}})	<span *ngIf="c.unreadMessages != 0 " class="badge badge-primary badge-pill">{{c.unreadMessages}}</span>							
 								<div class="small"><span class="fas fa-circle chat-online"></span> {{c.topMessage}}</div>
 							</div>
 							

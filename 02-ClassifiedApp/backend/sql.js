@@ -24,6 +24,7 @@ else {
         multipleStatements: true
     });
 }
+
 function connectDB(cb) {
     connection.connect(function (err) {
         cb(err)
@@ -207,6 +208,7 @@ function updateUserStatus(id,status,cb){
     else{
     queryString = `UPDATE User as u SET u.isActive=1 WHERE u.id = ${id}`
     }
+}
 
 function productDetails(id, user_id, cb) {
     // var queryString = "SELECT * FROM dbo.Product p where p.status != 2 AND p.id=" + id;
@@ -435,7 +437,4 @@ module.exports = {
     getAllUser:getAllUser,
     updateUserStatus:updateUserStatus,
     getAllCategoriesForAdmin:getAllCategoriesForAdmin
-
 }
-
-

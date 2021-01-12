@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
 
 
     this._authServie.currentUser.subscribe(data=>{    
-      this.loggedInUserId = data.id.toString();
+      this.loggedInUserId = data.user.id.toString();
 
       this._chatService.getNotification(this.loggedInUserId);
       this._chatService.chatNotification.subscribe((data) => {
