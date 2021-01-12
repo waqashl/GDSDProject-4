@@ -5,8 +5,8 @@ config = mysql.c
 
 var connection
 
-//if(!process.env.dbPath) {
-     if(false) {
+if(!process.env.dbPath) {
+     //if(false) {
    connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
