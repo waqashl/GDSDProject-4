@@ -13,7 +13,7 @@ const { Socket } = require('dgram');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({
-    origin: ['http://54.210.231.113:2000'],
+    origin: ['http://gdsddata.s3-website-us-east-1.amazonaws.com'],
     methods: ['GET', 'POST'],
     credentials:false
     //allowedHeaders: [{"Access-Control-Allow-Headers": "Content-Type, Authorization",
@@ -72,7 +72,7 @@ var server = http.createServer(app);
 
 const io = require('socket.io')(server, {
     cors: {
-        origin: "http://54.210.231.113:2000",
+        origin: "http://gdsddata.s3-website-us-east-1.amazonaws.com",
         methods: ["GET", "POST"],
         //allowedHeaders: [{"Access-Control-Allow-Headers": "Content-Type, Authorization",
          //"Access-Control-Allow-Origin": config.allowedOrigins,
