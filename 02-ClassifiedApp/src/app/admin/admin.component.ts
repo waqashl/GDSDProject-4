@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Category } from '../_models/category-model';
 import { Product, ProductModelResponse } from '../_models/product-model';
 import { UserModelResponse } from '../_models/user-model';
@@ -19,6 +20,7 @@ export class AdminComponent implements OnInit {
   categories:Category[]
   category: string;
 
+  baseUrl = environment.apiUrl;
 
   constructor(private _productService : ProductService,private _userService:UserService,private _categoryService:CategoriesService) {
 

@@ -12,15 +12,7 @@ const { Socket } = require('dgram');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors(({
-    origin: ['http://gdsddata.s3-website-us-east-1.amazonaws.com', 'https://ec2-54-210-231-113.compute-1.amazonaws.com:2000'],
-    methods: ['GET', 'POST'],
-    credentials:false
-    //allowedHeaders: [{"Access-Control-Allow-Headers": "Content-Type, Authorization",
-    //"Access-Control-Allow-Origin": config.allowedOrigins,
-    //"Access-Control-Allow-Credentials": true}]
-
-})));
+app.use(cors());
 
 app.use(morgan('dev'));
 
@@ -31,7 +23,7 @@ app.use(morgan('dev'));
 
 
 sqlManager.connectDB(function (err) {
-    if(err) {
+    if (err) {
         throw err;
     }
     console.log("Database connected");
@@ -40,16 +32,43 @@ sqlManager.connectDB(function (err) {
     app.use('/products', require('./products.js'));
     app.use('/category', require('./category.js'));
     app.use('/chat', require('./chat.js'));
-    
+
     app.get("/", (req, resp) => {
         resp.send("working");
     });
-    
+
 });
 
+function userMiddleware(req, res, next) {
+    console.log('user came in. Hello ' + req.params.name);
+    next();
+  } 
+ 
 
 // global error handler
 app.use(errorHandler);
+
+app.get('/uploads/:name', userMiddleware, function (req, res) {
+
+    let name = req.params.name;
+    console.log('requesting image');
+    console.log(name);
+
+    var fs = require('fs'),
+        path = require('path'),
+        filePath = path.join('uploads/'+name);
+
+    fs.readFile(filePath, function (err, data) {
+        if (!err) {
+            res.setHeader('Content-Type', 'image/jpg');
+            res.send(data);
+        } else {
+            console.log(err);
+            res.status(404).send('File Not Found');
+        }
+    });
+
+})
 
 
 var server = http.createServer(app);
@@ -75,16 +94,16 @@ const io = require('socket.io')(server, {
         origin: "http://gdsddata.s3-website-us-east-1.amazonaws.com",
         methods: ["GET", "POST"],
         //allowedHeaders: [{"Access-Control-Allow-Headers": "Content-Type, Authorization",
-         //"Access-Control-Allow-Origin": config.allowedOrigins,
-         //"Access-Control-Allow-Credentials": true}],
+        //"Access-Control-Allow-Origin": config.allowedOrigins,
+        //"Access-Control-Allow-Credentials": true}],
         withCredentials: false
-      }
+    }
 });
 
 io.on('connection', socket => {
     console.log('hello world im a hot socket');
-    
-    socket.on('updateChat', data => { 
+
+    socket.on('updateChat', data => {
         console.log('UPDATED FROM ANGULAR');
         io.emit('clientChatUpdate', '');
     });
@@ -93,7 +112,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => { console.log('im disconnect'); });
 });
 
-server.listen(2000, function(){
+server.listen(2000, function () {
     console.log("Express server listening on port 2000");
 });
 

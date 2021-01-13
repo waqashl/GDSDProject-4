@@ -18,7 +18,6 @@ export class AuthenticationService {
 
     public get currentUserValue(): UserDetails {
         return this.currentUserSubject.value;
-     
     }
     private baseUrl = environment.apiUrl;
 

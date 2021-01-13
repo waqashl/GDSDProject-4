@@ -11,33 +11,33 @@ export class CategoriesService {
 
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
 
   }
 
-  public getAllCategories() : Observable<CategoryModelResponse> {
+  getAllCategories(): Observable<CategoryModelResponse> {
     return this.http.get<CategoryModelResponse>(this.baseUrl + "/category");
 
   }
 
-  public getAllCategoriesForAdmin() : Observable<CategoryModelResponse> {
+  getAllCategoriesForAdmin(): Observable<CategoryModelResponse> {
     return this.http.get<CategoryModelResponse>(this.baseUrl + "/category/");
 
   }
 
-  public addCategory(category:string){
-    this.http.post<any>(this.baseUrl+"/category/add",{category}).subscribe(data=>{
+  addCategory(category: string) {
+    this.http.post<any>(this.baseUrl + "/category/add", { category }).subscribe(data => {
       console.log(data);
-     } ,
-  error=>console.error);
+    },
+      error => console.error);
 
-    }
+  }
 
-    public deleteCategory(categoryId:number){
-      this.http.post<any>(this.baseUrl+"/category/delete",{categoryId}).subscribe(data=>{
-        console.log(data);
-       } ,
-    error=>console.error);
-  
-      }
+  deleteCategory(categoryId: number) {
+    this.http.post<any>(this.baseUrl + "/category/delete", { categoryId }).subscribe(data => {
+      console.log(data);
+    },
+      error => console.error);
+
+  }
 }
