@@ -38,6 +38,15 @@ export class ChatUserComponent implements OnInit {
       scrollDiv.scroll({ top: scrollDiv.scrollHeight, behavior: 'smooth' });    
   }
   ngOnInit(): void {
+    
+    ///SOCKET IO TO UPDATE CHAT
+    this.socket.on('clientChatUpdate', data => {
+      
+      this.getChatList();      
+    })
+    ///////////////////////////
+    
+    
     this.activatedRoute.paramMap.subscribe((x) => {
       //TODO uncomment it after setting in the detail page:
       this.prodId = x.get('prodId') || '';
@@ -87,12 +96,6 @@ export class ChatUserComponent implements OnInit {
     });
 
 
-    ///SOCKET IO TO UPDATE CHAT
-    this.socket.on('clientChatUpdate', data => {
-      
-      this.getChatList();      
-    })
-    ///////////////////////////
   }
 
   getChatList() {
