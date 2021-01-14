@@ -76,10 +76,10 @@ export class ProductDetailComponent implements OnInit {
 
     for (var i in this.productImage) {
       this.galleryImages.push({
-        small: this.baseUrl+this.productImage[i].image,
-        medium: this.baseUrl + this.productImage[i].image,
-        big: this.baseUrl + this.productImage[i].image,
-        url: this.baseUrl + this.productImage[i].image
+        small: this.baseUrl + "/"+ this.productImage[i].image,
+        medium: this.baseUrl + "/" + this.productImage[i].image,
+        big: this.baseUrl + "/" +this.productImage[i].image,
+        url: this.baseUrl + "/" +this.productImage[i].image
       });
     }
   }
