@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../_services/product.service';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { ProductDetail, ProductImage, ProductDetailModelResponse } from '../_models/product-detail-model';
+import { AuthenticationService } from '../_services/authentication.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-product-detail',
@@ -11,9 +13,11 @@ import { ProductDetail, ProductImage, ProductDetailModelResponse } from '../_mod
 })
 export class ProductDetailComponent implements OnInit {
 
+
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _productService: ProductService) {
+    private _productService: ProductService,
+    private _authService: AuthenticationService) {
 
   }
 
@@ -25,8 +29,15 @@ export class ProductDetailComponent implements OnInit {
 
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[] = [];
+  baseUrl = environment.apiUrl;
+
+  
+  productOwner: number = 0;
+  loggedInUserId: number = 0;
 
   ngOnInit(): void {
+    
+    this.loggedInUserId = this._authService.currentUser.user.id;
 
     this.activatedRoute.paramMap.subscribe((x) => {
       this.prodId = x.get('id') || '';
@@ -65,10 +76,10 @@ export class ProductDetailComponent implements OnInit {
 
     for (var i in this.productImage) {
       this.galleryImages.push({
-        small: this.productImage[i].image,
-        medium: this.productImage[i].image,
-        big: this.productImage[i].image,
-        url: this.productImage[i].image
+        small: this.baseUrl+this.productImage[i].image,
+        medium: this.baseUrl + this.productImage[i].image,
+        big: this.baseUrl + this.productImage[i].image,
+        url: this.baseUrl + this.productImage[i].image
       });
     }
   }
@@ -88,6 +99,10 @@ export class ProductDetailComponent implements OnInit {
       this.productResponse = { products: p } as ProductDetailModelResponse;
       this.product = this.productResponse.products[0];
       this.productImage = data.productImages;
+
+
+      this.productOwner = data.products[0].owner;
+
       this.setImagesOnGallary();
     }, error => {
       console.log(error);

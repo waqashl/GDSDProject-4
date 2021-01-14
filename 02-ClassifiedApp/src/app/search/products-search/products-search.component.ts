@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { Product, ProductModelResponse } from 'src/app/_models/product-model';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { CategoriesService } from 'src/app/_services/categories.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { environment } from 'src/environments/environment';
@@ -28,9 +29,12 @@ export class ProductsSearchComponent implements OnInit {
   baseUrl = environment.apiUrl;
 
 
+
+
   constructor(private _http: HttpClient,
 		private _categoryService: CategoriesService,
-		private _productService: ProductService) { 
+    private _productService: ProductService,
+    private _authService: AuthenticationService) { 
   }
 
   ngOnInit(): void {
@@ -38,6 +42,7 @@ export class ProductsSearchComponent implements OnInit {
     //console.log(this.categoryId);
 
    // console.log(this.searchString);
+
 
     if(this.categoryId != undefined && this.searchString != undefined)
     {
