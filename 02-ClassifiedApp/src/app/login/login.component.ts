@@ -69,6 +69,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           if(data.status !== "Failed"){
+            localStorage.setItem('currentUser', JSON.stringify(data));
             this.router.navigate([this.returnUrl]);
           }
           else{
