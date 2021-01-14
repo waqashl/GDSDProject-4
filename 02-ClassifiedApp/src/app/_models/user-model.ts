@@ -13,8 +13,10 @@ export class User {
 }
 
 export class UserDetails{
+    status: string;
     token?:string;
-    user?:User
+    user?:User;
+    message: string;
 }
 
 export class UserModelResponse{

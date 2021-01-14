@@ -37,14 +37,12 @@ export class HeaderComponent implements OnInit {
   ) {
     
 
-    if(_authServie.currentUserValue) {
-      this.user = _authServie.currentUserValue.user;
+    if(_authServie.currentUser) {
+      this.user = _authServie.currentUser.user;
     }
     else {
       router.navigate(['/login']);
-    }
-
-    console.log(this.user)
+    }    
   }
 
   ngOnInit(): void {
@@ -62,21 +60,21 @@ export class HeaderComponent implements OnInit {
       (error) => {}
     );
 
+    console.log("USER",this._authServie.currentUser);
 
-    this._authServie.currentUser.subscribe(data=>{    
-      this.loggedInUserId = data.user.id.toString();
+    this.loggedInUserId = this._authServie.currentUser.user.id.toString();
 
-      this._chatService.getNotification(this.loggedInUserId);
-      this._chatService.chatNotification.subscribe((data) => {
-        if (JSON.stringify(data) !== '{}') {
-          //console.log('asdfasd')
-          console.log(data);
+    this._chatService.getNotification(this.loggedInUserId);
+    this._chatService.chatNotification.subscribe((data) => {
+      if (JSON.stringify(data) !== '{}') {
+        //console.log('asdfasd')
+        console.log(data);
 
-          this.chatNotificationCount = data.chat[0].totalCount;
-        }
-    });
-    
-    });
+        this.chatNotificationCount = data.chat[0].totalCount;
+      }
+  });
+
+
     
   }
 

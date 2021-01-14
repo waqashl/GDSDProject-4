@@ -47,36 +47,37 @@ export class ChatUserComponent implements OnInit {
       //this.prodId = '';
       //this.receiverId = '';
 
-      this._authService.currentUser.subscribe(data=>{
-        console.log(data);
-        
-        this.loggedInUserId = data.user.id.toString();
+      let loggedInUser = this._authService.currentUser;
 
-        if(this.prodId != '' && this.receiverId != ''){
-          this._chatService
-          .checkAndInsertChatSession(
-            this.prodId,
-            this.loggedInUserId,
-            this.receiverId
-          )
-          .subscribe((data) => {
-            
-            if(data.chat){
-                //Got a new Chat Session OR get old one if exists, check by stored procedure
-                //Stored Procedure Name: CheckAndInsertChatSession
-                this.activatedChatSessionID = data.chat[0].chatSessionId;
-            }            
-  
-            this.getChatList();
-          });
+
+      console.log(loggedInUser);
+        
+      this.loggedInUserId = loggedInUser.user.id.toString();
+
+      if(this.prodId != '' && this.receiverId != ''){
+        this._chatService
+        .checkAndInsertChatSession(
+          this.prodId,
+          this.loggedInUserId,
+          this.receiverId
+        )
+        .subscribe((data) => {
           
-        }
-        else{
-          //Get list and activated first chat
+          if(data.chat){
+              //Got a new Chat Session OR get old one if exists, check by stored procedure
+              //Stored Procedure Name: CheckAndInsertChatSession
+              this.activatedChatSessionID = data.chat[0].chatSessionId;
+          }            
+
           this.getChatList();
-  
-        }
-      });
+        });
+        
+      }
+      else{
+        //Get list and activated first chat
+        this.getChatList();
+
+      }
       
 
      
@@ -103,10 +104,11 @@ export class ChatUserComponent implements OnInit {
       if (data) {
         //Activate First
         //let chatId = data.chat.filter((m) => m.ProductID == this.prodId)[0].id;        
-        if(this.activatedChatSessionID == ''){          
+        if(this.activatedChatSessionID == '' && data.chat[0]){          
           this.activatedChatSessionID = data.chat[0].id;
         }
 
+        if(data.chat[0])
         this.getChatDetail(this.activatedChatSessionID);          
       }
     });

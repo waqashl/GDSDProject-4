@@ -8,27 +8,39 @@ import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private currentUserSubject: BehaviorSubject<UserDetails>;
-    public currentUser: Observable<UserDetails>;
+    //private currentUserSubject: BehaviorSubject<UserDetails>;
+    //public currentUser: Observable<UserDetails>;
+
+    public currentUser: UserDetails;
+
+    
 
     constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<UserDetails>(JSON.parse(localStorage.getItem('currentUser')));
-        this.currentUser = this.currentUserSubject.asObservable();
+        
+        //this.currentUserSubject = new BehaviorSubject<UserDetails>(JSON.parse(localStorage.getItem('currentUser')));
+        //this.currentUser = this.currentUserSubject.asObservable();
+
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        console.log("AuthService Constructor",this.currentUser);
     }
 
-    public get currentUserValue(): UserDetails {
-        return this.currentUserSubject.value;
-    }
+    // public get currentUserValue(): UserDetails {
+    //     return this.currentUserSubject.value;
+    // }
     private baseUrl = environment.apiUrl;
 
     login(email: string, password: string) {
-        return this.http.post<any>(this.baseUrl + "/user/login", { email, password })
+        return this.http.post<UserDetails>(this.baseUrl + "/user/login", { email, password })
         //return this.http.post<any>(`${environment.apiUrl}+/user/login`, { email, password })
             .pipe(map(user => {
-                console.log(user)
+                
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user.user);
+                //this.currentUserSubject.next(user.user);
+
+                this.currentUser = user;
+                
+                console.log("currentUser",this.currentUser);
                 return user;
             }));
     }
@@ -44,7 +56,8 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
+        this.currentUser = null;
+        //this.currentUserSubject.next(null);
     }
 
 }

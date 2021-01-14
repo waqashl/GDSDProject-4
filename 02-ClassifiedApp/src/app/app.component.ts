@@ -17,7 +17,7 @@ export class AppComponent {
     private authenticationService: AuthenticationService,
     private socket: Socket
   ) {
-    this.authenticationService.currentUser.subscribe((data) => {});
+    //this.authenticationService.currentUser.subscribe((data) => {});
   }
 
 

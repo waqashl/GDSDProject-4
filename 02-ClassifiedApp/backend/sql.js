@@ -5,8 +5,8 @@ config = mysql.c
 
 var connection
 
-if(!process.env.dbPath) {
-     //if(false) {
+//if(!process.env.dbPath) {
+     if(false) {
    connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
@@ -318,7 +318,7 @@ function getChatList(userId, cb) {
         CS.user2ID,
         P.title AS ProductName,
         P.id AS ProductID,
-        (select count(*) as totalCount from chat where ifnull(isRead, 0) = 0 and receiverId = `+ userId + `) as unreadMessages,
+        (select count(*) as totalCount from chat where ifnull(isRead, 0) = 0 and receiverId = `+ userId + ` and chatSessionID = CS.id) as unreadMessages,
         SUBSTRING(
                 (SELECT
                     message

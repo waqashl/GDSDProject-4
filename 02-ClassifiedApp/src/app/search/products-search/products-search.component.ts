@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { Product, ProductModelResponse } from 'src/app/_models/product-model';
 import { CategoriesService } from 'src/app/_services/categories.service';
 import { ProductService } from 'src/app/_services/product.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-products-search',
@@ -24,6 +25,7 @@ export class ProductsSearchComponent implements OnInit {
   pMax: number;
   sortIndex: number = 0;
   
+  baseUrl = environment.apiUrl;
 
 
   constructor(private _http: HttpClient,

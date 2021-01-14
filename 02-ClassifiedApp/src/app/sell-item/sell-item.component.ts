@@ -4,6 +4,7 @@ import {AddItemDTO} from '../_models/add-item-dto';
 import { ProductService } from '../_services/product.service';
 import { Category, CategoryModelResponse } from 'src/app/_models/category-model';
 import { CategoriesService } from '../_services/categories.service';
+import { AuthenticationService } from '../_services/authentication.service';
 @Component({
   selector: 'app-sell-item',
   templateUrl: './sell-item.component.html',
@@ -26,7 +27,7 @@ export class SellItemComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder,
-    private _productService: ProductService, private _categoriesService: CategoriesService) { 
+    private _productService: ProductService, private _categoriesService: CategoriesService, private _authService: AuthenticationService) { 
 
   }
 
@@ -71,13 +72,17 @@ export class SellItemComponent implements OnInit {
   }
 
   callProductPosting() {
+
+    let loggedInUser = this._authService.currentUser;
+
+
     this.errorMessage = false;
 
     const fd = new FormData();
     fd.append('title', this.addItemFormGroup.get('productName')?.value);
     fd.append('desc', this.addItemFormGroup.get('productDesc')?.value);
     fd.append('price', this.addItemFormGroup.get('productPrice')?.value);
-    fd.append('owner', "1");
+    fd.append('owner', loggedInUser.user.id.toString());
     fd.append('location', "Fulda");
     fd.append('category', "1");
     // fd.append('images', JSON.stringify(this.selectedFile));
