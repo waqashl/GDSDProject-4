@@ -76,9 +76,16 @@ export class ChatUserComponent implements OnInit {
               //Got a new Chat Session OR get old one if exists, check by stored procedure
               //Stored Procedure Name: CheckAndInsertChatSession
               this.activatedChatSessionID = data.chat[0].chatSessionId;
+              
           }            
 
           this.getChatList();
+
+
+              //SOCKET IO
+              this.socket.emit('updateChat', '');
+              ///////////////////////
+
         });
         
       }
@@ -102,6 +109,7 @@ export class ChatUserComponent implements OnInit {
     //TODO ADNAN    
     
     this._chatService.getChatList(this.loggedInUserId).subscribe((data) => {
+
       this.chatList = data;
 
       if (data) {
