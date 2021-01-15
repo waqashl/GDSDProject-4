@@ -26,7 +26,10 @@ export class SellItemComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder,
-    private _productService: ProductService, private _categoriesService: CategoriesService) { 
+    private _productService: ProductService, 
+    private _categoriesService: CategoriesService,
+    private _authServie: AuthenticationService,
+    ) { 
 
   }
 

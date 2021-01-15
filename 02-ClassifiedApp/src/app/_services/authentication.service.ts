@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User, UserDetails } from '../_models/user-model';
@@ -23,6 +23,11 @@ export class AuthenticationService {
     private baseUrl = environment.apiUrl;
 
     login(email: string, password: string) {
+        let headers = new HttpHeaders({
+            'Access-Control-Allow-Origin': 'http://localhost:2000',
+            'Access-Control-Allow-Credentials':'true'
+        });
+        let options = { headers: headers };
         return this.http.post<any>(this.baseUrl + "/user/login", { email, password })
         //return this.http.post<any>(`${environment.apiUrl}+/user/login`, { email, password })
             .pipe(map(user => {

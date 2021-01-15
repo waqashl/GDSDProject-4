@@ -32,7 +32,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AdminComponent } from './admin/admin.component';
 import { RegisterComponent } from './register/register.component';
 
-const config: SocketIoConfig = { url: 'http://54.210.231.113:2000', options: {
+const config: SocketIoConfig = { url: 'http://localhost:2000', options: {
   withCredentials: false
 } };
 
