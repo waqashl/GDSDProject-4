@@ -9,6 +9,7 @@ import { ProductService } from '../_services/product.service';
 import { AuthenticationService } from '../_services/authentication.service';
 import { User, UserDetails } from '../_models/user-model';
 import { ChatService } from '../_services/chat.service';
+import { truncate } from 'fs';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit {
   categories = {} as CategoryModelResponse;
   chatNotificationCount: string = '';
   loggedInUserId: string = '';
+  isAdmin :boolean = false;
 
   constructor(
     private _fakeService: FakeServiceForTestingService,
@@ -39,11 +41,21 @@ export class HeaderComponent implements OnInit {
 
     if(_authServie.currentUser) {
       this.user = _authServie.currentUser.user;
+      if(this.user){
+        if(this.user.userType ===0){
+        this.isAdmin = true
+      }
+      else{
+        this.isAdmin = false
+
+      }
+
     }
     else {
       router.navigate(['/login']);
     }    
   }
+}
 
   ngOnInit(): void {
     // this._fakeService.getData().subscribe(data=> {
@@ -93,6 +105,11 @@ export class HeaderComponent implements OnInit {
     this._authServie.logout();
     this.router.navigate(['/login']);
   }
+
+  redirectToAdmin() {
+    this.router.navigate(['/admin']);
+  }
+
   redirectTo(uri: string, search: string, c: string) {
     this.router
       .navigateByUrl('/', { skipLocationChange: true })

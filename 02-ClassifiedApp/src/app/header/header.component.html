@@ -19,6 +19,10 @@
     </div>
     <div class="col-sm-6">
       <div class="d-flex justify-content-center justify-content-sm-end">
+        <div class="p-2" *ngIf="isAdmin">
+          <button type="button" class="btn btn-primary"  (click)="logout()">Admin Panel</button>
+
+    </div>
        <div class="p-2">
               <button type="button" class="btn btn-primary"  (click)="logout()">Logout</button>
 
