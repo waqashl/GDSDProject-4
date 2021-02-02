@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 
 
 // use JWT auth to secure the api
-// app.use(jwt());
+app.use(jwt());
 
 
 sqlManager.connectDB(function (err) {

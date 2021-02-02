@@ -4,14 +4,20 @@ const { stringify } = require('querystring');
 const sqlManager = require('./sql');
 const config = require('./config');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 
 // Register User
 router.post('/register', function(req, res) {
 
+    let textPass = req.body.password;
+    let hashPass = bcrypt.hashSync(textPass, salt);
+    console.log(hashPass);
     user = {
         email: req.body.email,
-        password: req.body.password,
+        password: hashPass,
         name: req.body.name,
         dob: req.body.dob,
         address: req.body.address,
@@ -67,7 +73,7 @@ router.post('/login', function(req, res) {
     }
 
     // get user from User Table...
-    sqlManager.getUser(email, password, function(err, result) {
+    sqlManager.getUser(email, function(err, result) {
         if (err) {
             res.status(500).json({status:'Failed', message: err.message});
             return
@@ -78,11 +84,20 @@ router.post('/login', function(req, res) {
         }
         else {
 
+            let match = bcrypt.compareSync(password, result[0].password);
+            let hashPass = bcrypt.hashSync(password, salt);
+            console.log(password, hashPass, result[0].password, match);
+            if(!match) {
+                res.status(400).json({status:'Failed', message:'Incorrect Password.'});
+                return
+            }
+
             if (!result[0].isActive) {
                 res.status(400).json({status:'Failed', message:'User is not authorized to login. Please contact system administrator.'});
                 return
             }
 
+            delete result[0].password;
             const token = jwt.sign({ user: result[0].id }, config.jwtSecret, { expiresIn: '1h' });
             res.status(200).json({status:'Success', message:'Login Success', token: token, user: result[0]});    
         }
