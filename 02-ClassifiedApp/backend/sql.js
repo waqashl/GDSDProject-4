@@ -5,8 +5,8 @@ config = mysql.c
 
 var connection
 
-//if(!process.env.dbPath) {
-     if(false) {
+if(!process.env.dbPath) {
+    //  if(false) {
    connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
@@ -42,8 +42,8 @@ function registerUser(user, cb) {
     });
 }
 
-function getUser(email, password, cb) {
-    connection.query("SELECT id,name,address,postalCode,userType,dob,dateAdded,isActive,email FROM User u WHERE u.email = '" + email + "' AND password = '" + password + "'",
+function getUser(email, cb) {
+    connection.query("SELECT id,name,address,password,postalCode,userType,dob,dateAdded,isActive,email FROM User u WHERE u.email = '" + email + "'",
         function (err, rows) {
             if (err) cb(err);
             else cb(undefined, rows);

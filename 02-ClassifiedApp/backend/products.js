@@ -51,7 +51,6 @@ router.get('/', function(req, res) {
 
 
 router.get('/all', function(req, res) {
-
   
         sqlManager.getAllProducts("",function(err, result) {
             if (err) {
