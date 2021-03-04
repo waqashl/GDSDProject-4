@@ -85,8 +85,7 @@ router.post('/login', function(req, res) {
         else {
 
             let match = bcrypt.compareSync(password, result[0].password);
-            let hashPass = bcrypt.hashSync(password, salt);
-            console.log(password, hashPass, result[0].password, match);
+            console.log(password, result[0].password, result[0].password, match);
             if(!match) {
                 res.status(400).json({status:'Failed', message:'Incorrect Password.'});
                 return
