@@ -6,14 +6,13 @@ const config = require('./config');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const salt = 'thisIsTempSaltToGenerateHash'
 
 
 // Register User
 router.post('/register', function(req, res) {
 
     let textPass = req.body.password;
-    let hashPass = bcrypt.hashSync(textPass, salt);
+    let hashPass = bcrypt.hashSync(textPass, saltRounds);
     console.log(hashPass);
     user = {
         email: req.body.email,
@@ -83,18 +82,18 @@ router.post('/login', function(req, res) {
             res.status(200).json({status:'Failed', message:'Login Failed. Username or Password incorrect.'});
         }
         else {
-            // $2b$10$3fDwhoSK2VHXh2a/XHQMD.ULh9TB7/wBAG5kP6ckuMTaekPGmsmXC new hash
-            // $2b$10$uNPohQ6zqOOc4cPlVaUFWeee/pR3gVXqjtCSJv password hash
+            // // $2b$10$3fDwhoSK2VHXh2a/XHQMD.ULh9TB7/wBAG5kP6ckuMTaekPGmsmXC new hash
+            // // $2b$10$uNPohQ6zqOOc4cPlVaUFWeee/pR3gVXqjtCSJv password hash
 
-            bcrypt.compare(password, result[0].password).then((match) => {
-                console.log("result after compare promise", match);
-            })
-
+            // bcrypt.compare(password, result[0].password).then((match) => {
+            //     console.log("result after compare promise", match);
+            // })
+            
             let match = bcrypt.compareSync(password, result[0].password);
-            let hashPass = bcrypt.hashSync(password, salt);
+            // let hashPass = bcrypt.hashSync(password, salt);
             
 
-            console.log(password, hashPass, result[0].password, match, bcrypt.compareSync(password, result[0].password));
+            console.log(password, result[0].password, match, bcrypt.compareSync(password, result[0].password));
             if(!match) {
                 res.status(400).json({status:'Failed', message:'Incorrect Password.'});
                 return
