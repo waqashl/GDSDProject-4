@@ -9,10 +9,10 @@ const saltRounds = 10;
 
 
 // Register User
-router.post('/register', function(req, res) {
+router.post('/register', async function(req, res) {
 
     let textPass = req.body.password;
-    let hashPass = bcrypt.hashSync(textPass, saltRounds);
+    let hashPass = await bcrypt.hash(textPass, saltRounds);
     console.log(hashPass);
     user = {
         email: req.body.email,
@@ -61,7 +61,7 @@ router.post('/update/status',(req,res)=>{
 })
 
 
-router.post('/login', function(req, res) {
+router.post('/login', async function(req, res) {
 
     let email = req.body.email;
     let password = req.body.password;
@@ -72,7 +72,7 @@ router.post('/login', function(req, res) {
     }
 
     // get user from User Table...
-    sqlManager.getUser(email, function(err, result) {
+    sqlManager.getUser(email, async function(err, result) {
         if (err) {
             res.status(500).json({status:'Failed', message: err.message});
             return
@@ -89,7 +89,7 @@ router.post('/login', function(req, res) {
             //     console.log("result after compare promise", match);
             // })
             
-            let match = bcrypt.compareSync(password, result[0].password);
+            let match = await bcrypt.compare(password, result[0].password);
             // let hashPass = bcrypt.hashSync(password, salt);
             
 
