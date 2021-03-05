@@ -6,7 +6,7 @@ const config = require('./config');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const salt = bcrypt.genSaltSync(saltRounds);
+const salt = 'thisIsTempSaltToGenerateHash'
 
 
 // Register User
