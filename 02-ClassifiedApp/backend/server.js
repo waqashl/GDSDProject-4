@@ -127,7 +127,8 @@ function jwt() {
     return expressJwt({ secret, algorithms: ['HS256'] }).unless({
         path: [
             '/user/login',
-            '/user/register'
+            '/user/register',
+            '/uploads/:name'
         ]
     });
 }
