@@ -128,7 +128,7 @@ function jwt() {
         path: [
             '/user/login',
             '/user/register',
-            '/uploads/'
+            '/uploads/*'
         ]
     });
 }
