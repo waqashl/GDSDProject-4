@@ -46,6 +46,9 @@
               <!-- <p class="card-text mb-0">Phone: 012347857328</p> -->
               <p class="card-text">Email: {{product.ownerEmail}}</p>
               <button *ngIf="productOwner != loggedInUserId" type="button" class="btn btn-primary" (click)="chatUser()">Chat with seller</button>
+
+              <button *ngIf="productOwner == loggedInUserId"  type="button" class="btn btn-danger ml-2"  (click)="setSold()">Mark Sold</button>
+
             </div>
           </div>
         </div>

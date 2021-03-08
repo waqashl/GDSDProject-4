@@ -9,16 +9,15 @@
 
     <h5 class="mb-5">Please fill the following details</h5>
 
+    
 
     <form (ngSubmit)="submit()" [formGroup]="addItemFormGroup"  name="sellItemForm">
         <div class="form-row">
             <div class="form-group col-lg-6 ">
                 <label>Category</label>
-                <!-- <select [(ngModel)]="selectedCategoryID" (change)="selectCategoryOption()" class="form-control form-control-lg" > -->
-                    <select class="form-control form-control-lg" *ngIf="category"  id="ddlCategory" name="ddlCategory" [(ngModel)]="ddlCategory" >
-                    <option *ngFor="let cats of category?.categories" value="cats.id" >{{cats.name}}</option>
+                <select class="form-control form-control-lg" formControlName="ddlCategory" id="ddlCategory" [(ngModel)]="ddlCategory">
+                    <option *ngFor="let cats of category?.categories" [value]="cats.id">{{cats.name}}</option>
                 </select>
-                
           </div>
         </div>
        
@@ -58,7 +57,6 @@
         <div class="form-row">
             <div class="form-group col-lg-6 mt-5">
                 <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-                
           </div>
         </div>
         

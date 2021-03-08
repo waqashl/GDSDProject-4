@@ -101,6 +101,11 @@ export class ProductService {
     var url =  "/products/all"  
     return this.http.get<ProductModelResponse>(this.baseUrl + url);
   }
+
+
+  getImage(url: string) : Observable<string>{
+    return this.http.get<any>(url);
+  }
   
 
 }

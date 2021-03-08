@@ -109,4 +109,20 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
+  setSold(){
+
+    var st = confirm("Are you sure?");
+    if(st){
+      this._productService.updateProductStatus(this.product.id, 'sold')
+      setInterval(() => {
+        this.router.navigate(['/home/main']);
+   
+      },500)
+
+
+    }
+
+  }
+
+
 }

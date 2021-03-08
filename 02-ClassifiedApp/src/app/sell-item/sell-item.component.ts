@@ -23,7 +23,7 @@ export class SellItemComponent implements OnInit {
   productDesc = "";
   productPrice = 0;
   selectedFile: File[] = [];
-  ddlCategory: string = '';
+  ddlCategory: string = '1';
 
 
   constructor(private fb: FormBuilder,
@@ -40,7 +40,8 @@ export class SellItemComponent implements OnInit {
     this.addItemFormGroup = this.fb.group({
       productName: ['', Validators.required],
       productDesc: ['', Validators.required],
-      productPrice: ['', Validators.required]
+      productPrice: ['', Validators.required],
+      ddlCategory: ['']
     });
   }
 
@@ -74,7 +75,7 @@ export class SellItemComponent implements OnInit {
   callProductPosting() {
 
     let loggedInUser = this._authService.currentUser;
-
+    //console.log('cate', this.ddlCategory);
 
     this.errorMessage = false;
 
@@ -83,8 +84,8 @@ export class SellItemComponent implements OnInit {
     fd.append('desc', this.addItemFormGroup.get('productDesc')?.value);
     fd.append('price', this.addItemFormGroup.get('productPrice')?.value);
     fd.append('owner', loggedInUser.user.id.toString());
-    fd.append('location', "Fulda");
-    fd.append('category', "1");
+    fd.append('location', loggedInUser.user.address);
+    fd.append('category', this.ddlCategory);
     // fd.append('images', JSON.stringify(this.selectedFile));
     for (let file of this.selectedFile) {
       fd.append('images', file);
