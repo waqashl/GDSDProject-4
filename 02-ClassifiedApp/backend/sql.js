@@ -190,6 +190,9 @@ function updateProductStatus(id,status,cb){
     if(status==='approve'){
     queryString = `UPDATE Product as p SET p.status=1 WHERE p.id = ${id}`
     }
+    if(status === 'sold') {
+        queryString = `UPDATE Product as p SET p.status=3 WHERE p.id = ${id}`
+    }
     else{
     queryString = `UPDATE Product as p SET p.status=2 WHERE p.id = ${id}`
     }
