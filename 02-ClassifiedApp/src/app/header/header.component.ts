@@ -9,7 +9,7 @@ import { ProductService } from '../_services/product.service';
 import { AuthenticationService } from '../_services/authentication.service';
 import { User, UserDetails } from '../_models/user-model';
 import { ChatService } from '../_services/chat.service';
-import { truncate } from 'fs';
+// import { truncate } from 'fs';
 
 @Component({
   selector: 'app-header',
